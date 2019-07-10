@@ -7,11 +7,11 @@ variable "region" {
 }
 
 variable "transit_gateway_id" { 
-  default = ""
+  default = "tgw-026f34280a5ac6dd0"
 }
 
 variable "shared_transit_route_table" { 
-  default = ""
+  default = "tgw-rtb-072cdfdcdf6f7d76b"
 }
 
 variable "tgw_route_summary" { 
@@ -23,5 +23,5 @@ variable "tag_vpc_name" {
 }
 
 variable "account_name" {
-  default = "shared-services"
+  default = "bws-ops-shared-dev"
 }

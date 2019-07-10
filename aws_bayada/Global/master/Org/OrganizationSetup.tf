@@ -8,6 +8,6 @@ resource "aws_organizations_organizational_unit" "operations" {
 }
 
 resource "aws_organizations_organizational_unit" "testenv" {
-  name      = "Test Environments"
+  name      = "Test Environment"
   parent_id = "${aws_organizations_organization.BayadaOrg.roots.0.id}"
 }

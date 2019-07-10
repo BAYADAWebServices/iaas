@@ -8,7 +8,8 @@
 # Usage
 
 terraform init
-terraform apply -var-file="MasterAcct.tfvars"
+
+terraform apply -var-file="master_acct_name.tfvars"
 where account.tfvars defines the variables
 
 Example of vars file

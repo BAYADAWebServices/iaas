@@ -9,12 +9,12 @@
 
 terraform init
 
-terraform apply -var-file="SharedServices.tfvars"
+terraform apply -var-file="customer_name.tfvars"
 where customer_name.tfvars defines the variables
 
 Example of vars file
 
 region = "us-east-1"
-profile = "shared_services_profile"
-account_name = "shared-services"
+profile = "CustAccountProfile"
+account_name = "customer_name"
 
