@@ -9,3 +9,4 @@ terraform init --backend-config=backend-us-east-1-shared_services.tfvars --backe
 
 terraform apply  -var "profile=shared_services_profile"
 
+

@@ -12,6 +12,7 @@ variable "transit_gateway_id" {
 
 variable "shared_transit_route_table" { 
   default = "tgw-rtb-072cdfdcdf6f7d76b"
+
 }
 
 variable "tgw_route_summary" { 

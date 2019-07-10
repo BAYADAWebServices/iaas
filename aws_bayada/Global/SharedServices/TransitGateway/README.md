@@ -8,3 +8,4 @@ Create Transit Gateway
 terraform init --backend-config=backend-us-east-1-shared_services.tfvars --backend-config "profile=shared_services_profile"
 
 terraform apply -var "profile=shared_services_profile"
+
