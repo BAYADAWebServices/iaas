@@ -7,7 +7,7 @@ variable "region" {
 }
 
 variable "description" { 
-  default = "Bayada Transit Gateway - Test environments"
+  default = "Bayada Transit Gateway - Non-prod environments"
 }
 
 variable "amazon_side_asn" { 
@@ -39,7 +39,7 @@ variable "allow_external_principals" {
 }
 
 variable "organization_arn" { 
-  default = ""
+  default = "arn:aws:organizations::998774749665:organization/o-phlnn6tmy5"
 }
 
 variable "account_name" {

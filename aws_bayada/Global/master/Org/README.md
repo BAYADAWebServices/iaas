@@ -7,4 +7,5 @@ Creates OUs
 
 # Usage
 terraform init --backend-config=backend-us-east-1-MasterAcct.tfvars --backend-config "profile=MasterAcctProfile"
+
 terraform apply -var "profile=MasterAcctProfile"
