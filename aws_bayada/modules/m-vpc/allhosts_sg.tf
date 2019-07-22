@@ -1,6 +1,7 @@
 resource "aws_security_group" "allhosts" {
   name = "allhosts"
 
+
   vpc_id = "${aws_vpc.main.id}"
 
   tags {
@@ -13,6 +14,7 @@ resource "aws_security_group" "allhosts" {
 }
 
 resource "aws_security_group_rule" "ssh_self" {
+
   security_group_id = "${aws_security_group.allhosts.id}"
 
   type      = "ingress"
@@ -23,6 +25,7 @@ resource "aws_security_group_rule" "ssh_self" {
 }
 
 resource "aws_security_group_rule" "all_admin" {
+
   security_group_id = "${aws_security_group.allhosts.id}"
 
   type        = "ingress"
@@ -33,6 +36,7 @@ resource "aws_security_group_rule" "all_admin" {
 }
 
 resource "aws_security_group_rule" "egress" {
+
   security_group_id = "${aws_security_group.allhosts.id}"
 
   type        = "egress"

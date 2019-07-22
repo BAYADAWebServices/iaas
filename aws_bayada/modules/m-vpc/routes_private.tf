@@ -13,6 +13,7 @@ resource "aws_route_table" "private" {
 }
 
 resource "aws_route" "private_route" {
+
   count                  = "${var.nat_instances}"
   route_table_id         = "${element(aws_route_table.private.*.id, count.index)}"
   destination_cidr_block = "0.0.0.0/0"
