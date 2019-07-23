@@ -40,4 +40,4 @@ terraform $FUNCTION -var "region=$REGION" -var "vpcsubnet=$VPCSUBNET" -var "envi
 
 echo "cleaning up temp files that terraform created"
 
-#Sample:  ./deploy.sh plan us-east-1 10.20.12.0/24 SQA BWS-SQAOrgTest-FullAdmin bws-sqa-org-test 123403453763 Jeff
+#Sample:  ./deploy.sh plan us-east-1 10.20.12.0/24 SQA-Jeff BWS-SQAOrgTest-FullAdmin bws-sqa-org-test 123403453763 Jeff
