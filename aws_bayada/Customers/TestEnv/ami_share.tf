@@ -1,4 +1,5 @@
-/* resource "aws_ami_launch_permission" "share_web_ami" {
+/*
+resource "aws_ami_launch_permission" "share_web_ami" {
   provider   = "aws.shared_services"
   image_id   = "${var.ami_web1}"
   account_id = "${var.account_id}"
@@ -22,9 +23,4 @@ resource "aws_ami_launch_permission" "share_dc1_ami" {
   account_id = "${var.account_id}"
 }
 
-resource "aws_ami_launch_permission" "share_rdp1_ami" {
-  provider   = "aws.shared_services"
-  image_id   = "${var.ami_rdp1}"
-  account_id = "${var.account_id}"
-}
 */

@@ -9,7 +9,7 @@ variable "account_name" {}
 variable "account_id" {}
 
 variable "key_name" {
-  default = "serverkey"
+  default = "sqatest"
 }
 
 variable "vpcsubnet" {}
@@ -20,12 +20,19 @@ variable "region" {
   default = "us-east-1"
 }
 
-variable "tgw_route_summary" { 
-  default = "10.20.0.0/16"
+variable "default_route" { 
+  default = "0.0.0.0/0"
 }
-
 variable "transit_gateway_id" { 
   default = "tgw-026f34280a5ac6dd0"
+}
+
+variable "vpn_attach_id" {
+  default = "tgw-attach-0faa2eb1e719aa323"
+}
+
+variable "vpn_tgw_rt_id" {
+   default = "tgw-rtb-003fcf0fb8f40b369"
 }
 
 variable "shared_acct_name" {
@@ -58,10 +65,6 @@ variable "ami_db2" {
 
 variable "ami_dc1" {
   default = "ami-02e71d2b3a4a2a409"
-}
-
-variable "ami_rdp1" {
-  default = "ami-0ad4ef84bc9427b85"
 }
 
 variable "web1_instance_size" {

@@ -21,7 +21,7 @@ providers = {
  	private		= "2"
  	isolated	= "1"
  }
- tag_name           = "${var.account_name}"
+ tag_name           = "${var.account_name}-${var.vpc_owner}"
 
 }
 
@@ -42,7 +42,7 @@ resource "aws_main_route_table_association" "cust_priv_rt" {
 resource "aws_route" "tgw_default_route" {
   provider                  = "aws.customer_account"
   route_table_id            = "${module.vpc.routes_isolated[0]}"
-  destination_cidr_block    = "${var.tgw_route_summary}"
+  destination_cidr_block    = "${var.default_route}"
   transit_gateway_id        = "${var.transit_gateway_id}"
 }
 
@@ -54,7 +54,7 @@ resource "aws_ec2_transit_gateway_vpc_attachment" "tgw_attach_cust_vpc" {
   transit_gateway_default_route_table_association  = "false"
   transit_gateway_default_route_table_propagation  = "false"
   tags                                             = {
-    Name                                           = "${var.account_name}"
+    Name                                           = "${var.account_name}-${var.vpc_owner}"
   }
 }
 

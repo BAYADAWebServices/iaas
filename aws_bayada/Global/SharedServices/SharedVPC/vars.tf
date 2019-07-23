@@ -19,6 +19,10 @@ variable "tgw_route_summary" {
   default = "10.20.0.0/16"
 }
 
+variable "tgw_vpn_route" { 
+  default = "192.168.240.0/22"
+}
+
 variable "tag_vpc_name" { 
   default = "Shared Services"
 }
@@ -26,3 +30,7 @@ variable "tag_vpc_name" {
 variable "account_name" {
   default = "bws-ops-shared-dev"
 }
+
+
+
+
