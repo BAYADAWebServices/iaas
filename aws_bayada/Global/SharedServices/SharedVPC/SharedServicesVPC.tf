@@ -33,9 +33,15 @@ resource "aws_main_route_table_association" "Shared_priv_rt" {
   route_table_id = "${module.vpc.routes_private[0]}"
 }
 
-resource "aws_route" "tgw_default_route" {
+resource "aws_route" "tgw_summary_route" {
   route_table_id            = "${module.vpc.routes_private[0]}"
   destination_cidr_block    = "${var.tgw_route_summary}"
+  transit_gateway_id        = "${var.transit_gateway_id}"
+}
+
+resource "aws_route" "tgw_vpn_route" {
+  route_table_id            = "${module.vpc.routes_private[0]}"
+  destination_cidr_block    = "${var.tgw_vpn_route"
   transit_gateway_id        = "${var.transit_gateway_id}"
 }
 

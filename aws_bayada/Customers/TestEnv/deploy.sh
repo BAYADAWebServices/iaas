@@ -4,16 +4,16 @@
 #
 # VPCsubnet: Subnet for the VPC
 #
-# Environment: Each customer alias will have its own workspace.  An alias should be chosen for each customer ans used to deploy resources
-# to that customer in their own terrafrom workspace. 
+# Environment: Each customer alias will have its own workspaces.  An alias should be chosen for each customer and used to deploy resources
+# to that customer for each test user in the following format: customer-vpcowner
 #
 # Account Role: The AWS profile used to provide authentication to the customer account.  It should refer to the assumed role.
-# 
-# Shared Role: The AWS profile use to provide authentication to the shared services account.  It should refer to the assumed role.
 # 
 # Account Name: Name for customer test account.
 # 
 # AccountID: Account ID of customer account
+#
+# vpcowner: The test user who will utilize the vpc.
 
 
 if [ "$#" -lt 7 ]
@@ -40,4 +40,4 @@ terraform $FUNCTION -var "region=$REGION" -var "vpcsubnet=$VPCSUBNET" -var "envi
 
 echo "cleaning up temp files that terraform created"
 
-#Sample:  ./deploy.sh plan 10.20.11.0/24 user2 BWS-SQAOrgTest-FullAdmin BWS-OPSSharedServiceDev-FullAdmin bws-sqa-org-test 123403453763 bws-sqa-org-test-terraform-us-east-1
+#Sample:  ./deploy.sh plan us-east-1 10.20.12.0/24 SQA BWS-SQAOrgTest-FullAdmin bws-sqa-org-test 123403453763 Jeff
