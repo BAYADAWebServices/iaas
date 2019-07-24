@@ -14,4 +14,5 @@
 terraform init
 
 terraform apply -var-file="OpsSharedServices.tfvars"
-	# where OpsSharedServices.tfvars defines the variables
+
+# where OpsSharedServices.tfvars defines the variables
