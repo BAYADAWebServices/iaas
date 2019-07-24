@@ -24,13 +24,10 @@ variable "tgw_vpn_route" {
 }
 
 variable "tag_vpc_name" { 
-  default = "Shared Services"
+  default = "vpcOpsSharedServicesDev"
 }
 
 variable "account_name" {
-  default = "bws-ops-shared-dev"
+  default = "OPSSharedServicesDev"
 }
-
-
-
 
