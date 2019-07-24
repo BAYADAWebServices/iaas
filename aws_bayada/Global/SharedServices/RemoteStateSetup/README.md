@@ -1,3 +1,7 @@
+# Description
+* aws resources to manage terraform locked files.
+* This will avoid multiple users from modifying the same file at the same time.
+
 # Resources
 * Builds S3 bucket in new account
 * Dynamo table in new account
@@ -9,12 +13,5 @@
 
 terraform init
 
-terraform apply -var-file="SharedServices.tfvars"
-where customer_name.tfvars defines the variables
-
-Example of vars file
-
-region = "us-east-1"
-profile = "shared_services_profile"
-account_name = "shared-services"
-
+terraform apply -var-file="OpsSharedServices.tfvars"
+	# where OpsSharedServices.tfvars defines the variables
