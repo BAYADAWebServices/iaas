@@ -6,13 +6,17 @@ resource "aws_ec2_transit_gateway" "Bayada_Transit" {
 	default_route_table_association = "${var.default_route_table_association}"
 	default_route_table_propagation = "${var.default_route_table_propagation}"
 	auto_accept_shared_attachments  = "${var.auto_accept_shared_attachments}"
-	  tags                          = {
-    Name                          = "tgw-testenv"
+	
+	tags = {
+    Name              = "tgwOPSSharedServiceDev"
+	"bws:Environment" = "DEV"
+	"bws:Owner"       = "NES"
+	"bws:Service"     = "Enterprise Data and Telecom Networks"
   }
 }
 
 resource "aws_ram_resource_share" "Bayada_Org_Share" {
-  name                      = "Bayada_Org_Share"
+  name                      = "ramOpsSharedServicesDev-TransitGateway"
   allow_external_principals = "${var.allow_external_principals}"
 }
 
@@ -28,8 +32,12 @@ resource "aws_ram_resource_association" "Bayada_gw_associataion" {
 
 resource "aws_ec2_transit_gateway_route_table" "tgw-shared-rt" {
   transit_gateway_id = "${aws_ec2_transit_gateway.Bayada_Transit.id}"
-  tags               = {
-    Name             = "tgw-shared-rt"
+  
+  tags = {
+    Name = "tgwRouteTableOPSSharedServicesDev"
+	"bws:Environment" = "DEV"
+	"bws:Owner"       = "NES"
+	"bws:Service"     = "Enterprise Data and Telecom Networks"
   }
   depends_on = ["aws_ec2_transit_gateway.Bayada_Transit"]
 }

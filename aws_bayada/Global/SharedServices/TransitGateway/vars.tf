@@ -7,7 +7,7 @@ variable "region" {
 }
 
 variable "description" { 
-  default = "Bayada Transit Gateway - Non-prod environments"
+  default = "Bayada Transit Gateway - NonProd environments"
 }
 
 variable "amazon_side_asn" { 
@@ -43,7 +43,7 @@ variable "organization_arn" {
 }
 
 variable "account_name" {
-  default = "shared-services"
+  default = "OPSSharedServicesDev"
 }
 
 
