@@ -1,0 +1,6 @@
+region  = "us-east-1"
+#profile = "ops_shared_dev_admin"
+profile = "ses_shared_dev_admin"
+account_name = "Operations Shared Service for Development"
+account_email = "bws-ops-shared-dev@bayada.com"
+account_name_friendly = "OPSSharedServicesDev"
