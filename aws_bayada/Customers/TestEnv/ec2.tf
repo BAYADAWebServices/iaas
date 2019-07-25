@@ -4,6 +4,7 @@ resource "aws_instance" "web1" {
   instance_type               = "${var.web1_instance_size}"
   subnet_id                   = "${module.vpc.subnets_isolated[0]}"
   vpc_security_group_ids      = ["${aws_security_group.web1.id}"]
+  iam_instance_profile        = "${aws_iam_instance_profile.S3_profile.name}"
   key_name                    = "${var.key_name}"
   tenancy                     = "default"
   associate_public_ip_address = "false"
@@ -27,6 +28,7 @@ resource "aws_instance" "web2" {
   instance_type               = "${var.web2_instance_size}"
   subnet_id                   = "${module.vpc.subnets_isolated[0]}"
   vpc_security_group_ids      = ["${aws_security_group.web2.id}"]
+  iam_instance_profile        = "${aws_iam_instance_profile.S3_profile.name}"
   key_name                    = "${var.key_name}"
   tenancy                     = "default"
   associate_public_ip_address = "false"
@@ -48,6 +50,7 @@ resource "aws_instance" "db1" {
   instance_type               = "${var.db1_instance_size}"
   subnet_id                   = "${module.vpc.subnets_isolated[0]}"
   vpc_security_group_ids      = ["${aws_security_group.db1.id}"]
+  iam_instance_profile        = "${aws_iam_instance_profile.S3_profile.name}"  
   key_name                    = "${var.key_name}"
   tenancy                     = "default"
   associate_public_ip_address = "false"
@@ -66,6 +69,7 @@ resource "aws_instance" "db2" {
   instance_type               = "${var.db2_instance_size}"
   subnet_id                   = "${module.vpc.subnets_isolated[0]}"
   vpc_security_group_ids      = ["${aws_security_group.db2.id}"]
+  iam_instance_profile        = "${aws_iam_instance_profile.S3_profile.name}"
   key_name                    = "${var.key_name}"
   tenancy                     = "default"
   associate_public_ip_address = "false"
@@ -89,6 +93,7 @@ resource "aws_instance" "dc1" {
   instance_type               = "${var.dc1_instance_size}"
   subnet_id                   = "${module.vpc.subnets_isolated[0]}"
   vpc_security_group_ids      = ["${aws_security_group.dc1.id}"]
+  iam_instance_profile        = "${aws_iam_instance_profile.S3_profile.name}"
   key_name                    = "${var.key_name}"
   tenancy                     = "default"
   associate_public_ip_address = "false"
@@ -109,6 +114,7 @@ resource "aws_instance" "rdp1" {
   instance_type               = "${var.rdp1_instance_size}"
   subnet_id                   = "${module.vpc.subnets_isolated[0]}"
   vpc_security_group_ids      = ["${aws_security_group.rdp1.id}"]
+  iam_instance_profile        = "${aws_iam_instance_profile.S3_profile.name}"  
   key_name                    = "${var.key_name}"
   tenancy                     = "default"
   associate_public_ip_address = "false"
