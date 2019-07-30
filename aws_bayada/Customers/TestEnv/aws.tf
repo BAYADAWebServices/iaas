@@ -12,3 +12,10 @@ provider "aws" {
 
 }
 
+provider "aws" {
+  profile = "${var.ses_shared_srvc_dev_profile}"
+  region  = "${var.region}"
+  alias	  = "ses_shared_srvc_dev"
+
+}
+

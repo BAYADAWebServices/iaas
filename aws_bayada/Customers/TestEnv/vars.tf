@@ -24,6 +24,10 @@ variable "ops_shared_srvc_dev_profile" {
   default = "BWS-OPSSharedServiceDev-FullAdmin"
 }
 
+variable "ses_shared_srvc_dev_profile" {
+  default = "BWS-SESSharedServiceNonProd-FullAdmin"
+}
+
 variable "key_name" {
   default = "kpInstanceKey"
 }
