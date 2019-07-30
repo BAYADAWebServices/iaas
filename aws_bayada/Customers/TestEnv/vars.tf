@@ -1,20 +1,32 @@
 variable "customer_account_profile" {}
 
-variable "shared_services_profile" {
-  default = "BWS-OPSSharedServiceDev-FullAdmin"
-}
-
 variable "account_name" {}
 
 variable "account_id" {}
 
-variable "key_name" {
-  default = "sqatest"
-}
-
 variable "vpcsubnet" {}
 
 variable "vpc_owner" {}
+
+variable "customer_name" {}
+
+variable "environment" {}
+
+variable "nes_service" {
+  default = "Enterprise Data and Telecom Networks"
+}
+
+variable "nes_office" {
+  default = "NES-527"
+}
+
+variable "shared_services_profile" {
+  default = "BWS-OPSSharedServiceDev-FullAdmin"
+}
+
+variable "key_name" {
+  default = "kpInstanceKey"
+}
 
 variable "region" {
   default = "us-east-1"

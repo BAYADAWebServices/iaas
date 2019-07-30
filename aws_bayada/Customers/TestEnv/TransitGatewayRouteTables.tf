@@ -1,8 +1,14 @@
 resource "aws_ec2_transit_gateway_route_table" "tgw-customer-rt" {
   provider            = "aws.shared_services"
   transit_gateway_id  = "${var.transit_gateway_id}"
+  
   tags                = {
-    Name              = "${var.account_name}-${var.vpc_owner}"
+    Name              = "tgw-${var.account_name}-${var.vpc_owner}"
+	"bws:Description" = "Transit Gateway Route Table for ${var.vpc_owner} VPC"
+    "bws:Service"     = "${var.nes_service}"
+    "bws:Office"      = "${var.nes_office}"
+    "bws:Environment" = "${var.environment}"
+    "bws:Customer"    = "${var.customer_name}"
   }
 }
 

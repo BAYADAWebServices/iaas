@@ -1,7 +1,11 @@
 resource "aws_security_group" "web1" {
   provider                    = "aws.customer_account"
-  name        = "web1"
+  name        = "sgWEB1-${var.account_name}-${var.vpc_owner}"
   vpc_id      = "${module.vpc.id}"
+  
+  tags = {
+	Name = "sgWEB1-${var.account_name}-${var.vpc_owner}"
+  }  
 }
 
 resource "aws_security_group_rule" "web1-all-in" {
@@ -28,8 +32,12 @@ resource "aws_security_group_rule" "web1-all-out" {
 
 resource "aws_security_group" "web2" {
   provider                    = "aws.customer_account"
-  name        = "web2"
+  name        = "sgWEB2-${var.account_name}-${var.vpc_owner}"
   vpc_id      = "${module.vpc.id}"
+  
+  tags = {
+	Name = "sgWEB2-${var.account_name}-${var.vpc_owner}"
+  }  
 }
 
 resource "aws_security_group_rule" "web2-all-in" {
@@ -56,8 +64,12 @@ resource "aws_security_group_rule" "web2-all-out" {
 
 resource "aws_security_group" "db1" {
   provider                    = "aws.customer_account"
-  name        = "db1"
+  name        = "sgDB1-${var.account_name}-${var.vpc_owner}"
   vpc_id      = "${module.vpc.id}"
+  
+  tags = {
+	Name = "sgDB1-${var.account_name}-${var.vpc_owner}"
+  }  
 }
 
 resource "aws_security_group_rule" "db1-all-in" {
@@ -81,11 +93,14 @@ resource "aws_security_group_rule" "db1-all-out" {
 }
 
 
-
 resource "aws_security_group" "db2" {
   provider                    = "aws.customer_account"
-  name        = "db2"
+  name        = "sgDB2-${var.account_name}-${var.vpc_owner}"
   vpc_id      = "${module.vpc.id}"
+  
+  tags = {
+	Name = "sgDB2-${var.account_name}-${var.vpc_owner}"
+  }  
 }
 
 resource "aws_security_group_rule" "db2-all-in" {
@@ -112,8 +127,12 @@ resource "aws_security_group_rule" "db2-all-out" {
 
 resource "aws_security_group" "dc1" {
   provider                    = "aws.customer_account"
-  name        = "dc1"
+  name        = "sgDC1-${var.account_name}-${var.vpc_owner}"
   vpc_id      = "${module.vpc.id}"
+  
+  tags = {
+	Name = "sgDC1-${var.account_name}-${var.vpc_owner}"
+  }  
 }
 
 resource "aws_security_group_rule" "dc1-all-in" {
@@ -140,8 +159,12 @@ resource "aws_security_group_rule" "dc1-all-out" {
 
 resource "aws_security_group" "rdp1" {
   provider                    = "aws.customer_account"
-  name        = "rdp1"
+  name        = "sgRDP1-${var.account_name}-${var.vpc_owner}"
   vpc_id      = "${module.vpc.id}"
+  
+  tags = {
+	Name = "sgRDP1-${var.account_name}-${var.vpc_owner}"
+  }  
 }
 
 resource "aws_security_group_rule" "rdp1-all-in" {

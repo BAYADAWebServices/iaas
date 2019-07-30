@@ -16,27 +16,28 @@
 # vpcowner: The test user who will utilize the vpc.
 
 
-if [ "$#" -lt 7 ]
+if [ "$#" -lt 9 ]
 then
-  echo "Usage: ./deploy.sh {terraform_function} {region} {vpcsubnet} {env} {accountrole} {accountname} {accountid} {vpcowner} from directory of tf code"
+  echo "Usage: ./deploy.sh {terraform_function} {region} {vpcsubnet} {terraform-env} {accountrole} {accountname} {accountid} {vpcowner} {customer} {environment} from directory of tf code"
   exit 1
 fi
 
 FUNCTION=$1
 REGION=$2
 VPCSUBNET=$3
-ENVIRONMENT=$4
+TERRAFORMENV=$4
 ACCOUNTROLE=$5
 ACCOUNTNAME=$6
 ACCOUNTID=$7
 VPCOWNER=$8
-
+CUSTOMER=$9
+ENVIRONMENT=$10
 
 rm -rf ./.terraform ./terraform.tfstate.d ./terraform.tfstate*
 terraform init --backend-config=backend-us-east-1-testenv.tfvars
-terraform workspace new $ENVIRONMENT
-terraform workspace select $ENVIRONMENT
-terraform $FUNCTION -var "region=$REGION" -var "vpcsubnet=$VPCSUBNET" -var "environment=$ENVIRONMENT" -var "customer_account_profile=$ACCOUNTROLE" -var "account_name=$ACCOUNTNAME" -var "account_id=$ACCOUNTID" -var "vpc_owner=$VPCOWNER"
+terraform workspace new $TERRAFORMENV
+terraform workspace select $TERRAFORMENV
+terraform $FUNCTION -var "region=$REGION" -var "vpcsubnet=$VPCSUBNET" -var "terraformenv=$TERRAFORMENV" -var "customer_account_profile=$ACCOUNTROLE" -var "account_name=$ACCOUNTNAME" -var "account_id=$ACCOUNTID" -var "vpc_owner=$VPCOWNER" -var "customer_name=$CUSTOMER" -var "environment=$ENVIRONMENT"
 
 echo "cleaning up temp files that terraform created"
 
