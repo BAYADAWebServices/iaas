@@ -6,10 +6,11 @@ resource "aws_vpc" "main" {
   instance_tenancy = "${var.instance_tenancy}"
 
   tags {
-    Name        = "${var.tag_name}"
-    CostCenter  = "${var.tag_costcenter}"
-    Environment = "${var.tag_environment}"
-    Application = "${var.tag_application}"
-    Customer    = "${var.tag_customer}"
+    Name              = "vpc${var.tag_name}"
+	"bws:Description" = "Virtual private cloud for a specified CIDR block"
+    "bws:Service"     = "${var.tag_service}"
+    "bws:Office"      = "${var.tag_office}"
+    "bws:Environment" = "${var.tag_environment}"
+    "bws:Customer"    = "${var.tag_customer}"
   }
 }
