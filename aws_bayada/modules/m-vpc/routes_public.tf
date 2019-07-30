@@ -1,12 +1,14 @@
 resource "aws_route_table" "public" {
+
   vpc_id = "${aws_vpc.main.id}"
 
   tags {
-    Name        = "${var.tag_name}-public"
-    CostCenter  = "${var.tag_costcenter}"
-    Environment = "${var.tag_environment}"
-    Application = "${var.tag_application}"
-    Customer    = "${var.tag_customer}"
+    Name              = "rt${var.tag_name}-public"
+	"bws:Description" = "Route table for public subnet"
+    "bws:Service"     = "${var.tag_service}"
+    "bws:Office"      = "${var.tag_office}"
+    "bws:Environment" = "${var.tag_environment}"
+    "bws:Customer"    = "${var.tag_customer}"
   }
 }
 

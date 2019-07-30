@@ -8,10 +8,11 @@ resource "aws_subnet" "public" {
   map_public_ip_on_launch = "true"
 
   tags {
-    Name        = "${var.tag_name}-${element(var.subnet_name_suffix, count.index)}-public"
-    CostCenter  = "${var.tag_costcenter}"
-    Environment = "${var.tag_environment}"
-    Application = "${var.tag_application}"
-    Customer    = "${var.tag_customer}"
+    Name              = "subnet${var.tag_name}-${element(var.subnet_name_suffix, count.index)}-public"
+	"bws:Description" = "Subnet IP range for public network"
+    "bws:Service"     = "${var.tag_service}"
+    "bws:Office"      = "${var.tag_office}"
+    "bws:Environment" = "${var.tag_environment}"
+    "bws:Customer"    = "${var.tag_customer}"
   }
 }

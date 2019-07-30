@@ -1,3 +1,25 @@
+variable "tag_service" {
+  default = "Enterprise Data and Telecom Networks"
+}
+
+variable "tag_office" {
+  default = "NES-527"
+}
+
+variable "tag_name" {}
+
+variable "tag_customer" {}
+
+variable "tag_environment" {}
+
+variable "tag_application" {
+  default = ""
+}
+
+variable "owner" {
+  default = "support@bayadawebservices.com"
+}
+
 variable "adminip" {
   default = "172.0.0.1"
 }
@@ -48,10 +70,6 @@ EOF
   }
 }
 
-variable "owner" {
-  default = "devops@foghornconsulting.com"
-}
-
 variable "subnet_map" {
   type = "map"
 
@@ -64,26 +82,6 @@ variable "subnet_map" {
 
 variable "subnet_name_suffix" {
   default = [""]
-}
-
-variable "tag_customer" {
-  default = ""
-}
-
-variable "tag_environment" {
-  default = ""
-}
-
-variable "tag_costcenter" {
-  default = ""
-}
-
-variable "tag_application" {
-  default = ""
-}
-
-variable "tag_name" {
-  default = "FogOps"
 }
 
 variable "enable_flow_logs" {

@@ -3,10 +3,11 @@ resource "aws_internet_gateway" "main" {
 
 
   tags {
-    Name        = "${var.tag_name}"
-    CostCenter  = "${var.tag_costcenter}"
-    Environment = "${var.tag_environment}"
-    Application = "${var.tag_application}"
-    Customer    = "${var.tag_customer}"
+    Name              = "ig${var.tag_name}"
+	"bws:Description" = "Internet Gateway endpoint for resources in the public subnet"
+    "bws:Service"     = "${var.tag_service}"
+    "bws:Office"      = "${var.tag_office}"
+    "bws:Environment" = "${var.tag_environment}"
+    "bws:Customer"    = "${var.tag_customer}"
   }
 }

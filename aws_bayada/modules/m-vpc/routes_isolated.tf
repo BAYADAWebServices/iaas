@@ -3,11 +3,12 @@ resource "aws_route_table" "isolated" {
   vpc_id = "${aws_vpc.main.id}"
 
   tags {
-    Name        = "${var.tag_name}-isolated"
-    CostCenter  = "${var.tag_costcenter}"
-    Environment = "${var.tag_environment}"
-    Application = "${var.tag_application}"
-    Customer    = "${var.tag_customer}"
+    Name              = "rt${var.tag_name}-isolated"
+	"bws:Description" = "Route table for isolated subnet"
+    "bws:Service"     = "${var.tag_service}"
+    "bws:Office"      = "${var.tag_office}"
+    "bws:Environment" = "${var.tag_environment}"
+    "bws:Customer"    = "${var.tag_customer}"
   }
 }
 

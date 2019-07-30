@@ -8,10 +8,11 @@ resource "aws_subnet" "isolated" {
   map_public_ip_on_launch = "false"
 
   tags {
-    Name        = "${var.tag_name}-${element(var.subnet_name_suffix, count.index)}-isolated"
-    CostCenter  = "${var.tag_costcenter}"
-    Environment = "${var.tag_environment}"
-    Application = "${var.tag_application}"
-    Customer    = "${var.tag_customer}"
+    Name              = "subnet${var.tag_name}-${element(var.subnet_name_suffix, count.index)}-isolated"
+	"bws:Description" = "Subnet IP range for isolated network"
+    "bws:Service"     = "${var.tag_service}"
+    "bws:Office"      = "${var.tag_office}"
+    "bws:Environment" = "${var.tag_environment}"
+    "bws:Customer"    = "${var.tag_customer}"
   }
 }
