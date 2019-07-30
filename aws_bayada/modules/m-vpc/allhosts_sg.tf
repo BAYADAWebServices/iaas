@@ -1,15 +1,16 @@
 resource "aws_security_group" "allhosts" {
+
   name = "allhosts"
-
-
+  
   vpc_id = "${aws_vpc.main.id}"
 
   tags {
-    Name        = "${var.tag_name}"
-    CostCenter  = "${var.tag_costcenter}"
-    Environment = "${var.tag_environment}"
-    Application = "${var.tag_application}"
-    Customer    = "${var.tag_customer}"
+    Name              = "sg${var.tag_name}-allhosts"
+	"bws:Description" = "Security group for all instances"
+    "bws:Service"     = "${var.tag_service}"
+    "bws:Office"      = "${var.tag_office}"
+    "bws:Environment" = "${var.tag_environment}"
+    "bws:Customer"    = "${var.tag_customer}"
   }
 }
 
