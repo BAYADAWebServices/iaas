@@ -6,9 +6,9 @@ provider "aws" {
 }
 
 provider "aws" {
-  profile = "${var.shared_services_profile}"
+  profile = "${var.ops_shared_srvc_dev_profile}"
   region  = "${var.region}"
-  alias	  = "shared_services"
+  alias	  = "ops_shared_srvc_dev"
 
 }
 

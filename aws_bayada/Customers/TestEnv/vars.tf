@@ -20,7 +20,7 @@ variable "nes_office" {
   default = "NES-527"
 }
 
-variable "shared_services_profile" {
+variable "ops_shared_srvc_dev_profile" {
   default = "BWS-OPSSharedServiceDev-FullAdmin"
 }
 
