@@ -11,14 +11,12 @@ resource "aws_instance" "web1" {
   # depends_on = ["aws_ami_launch_permission.share_web_ami"]
 
   tags {
-    Name              = "iWeb1-${var.account_name}-${var.vpc_owner}"
-    "bws:Application"   = "OrganizationServices"
-    "bws:Application"   = "SingleSignOn"
-    "bws:Application"   = "FindAnOffice"
-    "bws:Service"       = "Software Quality Assurance and Testing"
+    Name                = "iWeb1-${var.account_name}-${var.vpc_owner}"
+	"bws:Environment"   = "${var.environment}"
+    "bws:Service"       = "${var.ses_service}"
     "bws:Software"      = "IIS"
-    "bws:Owner"         = "SQA"
-    "bws:Description"   = "Web server that hosts the OrgServices web applicaiton"
+    "bws:Customer"      = "${var.customer_name}"
+    "bws:Description"   = "Web server that hosts custom web applicaiton"
   }
 }
 
@@ -35,12 +33,12 @@ resource "aws_instance" "web2" {
   # depends_on = ["aws_ami_launch_permission.share_web_ami"]
 
   tags {
-    Name              = "iWeb2-${var.account_name}-${var.vpc_owner}"
-    "bws:Application"   = "MasterData"
-    "bws:Service"       = "Software Quality Assurance and Testing"
+    Name                = "iWeb2-${var.account_name}-${var.vpc_owner}"
+	"bws:Environment"   = "${var.environment}"
+    "bws:Service"       = "${var.ses_service}"
     "bws:Software"      = "IIS"
-    "bws:Owner"         = "SQA"
-    "bws:Description"   = "Web server that hosts the MasterData web applicaiton"
+    "bws:Customer"      = "${var.customer_name}"
+    "bws:Description"   = "Web server that hosts custom web applicaiton"
   }
 }
 
@@ -57,12 +55,13 @@ resource "aws_instance" "db1" {
   # depends_on = ["aws_ami_launch_permission.share_db1_ami"]
 
   tags {
-    Name              = "iDB1-${var.account_name}-${var.vpc_owner}"
-    "bws:Application"   = "MasterData"
+    Name                = "iDB1-${var.account_name}-${var.vpc_owner}"
+	"bws:Environment"   = "${var.environment}"
     "bws:Software"      = "SQLServer2012"
-	"bws:Service"       = "Software Quality Assurance and Testing"
-	"bws:Owner"         = "SQA"
-	"bws:Description"   = "SQL Server for hosting MasterData database"
+	"bws:SQLInstance"   = "GP"
+	"bws:Service"       = "${var.ses_service}"
+	"bws:Customer"      = "${var.customer_name}"
+	"bws:Description"   = "SQL Server for hosting custom application database"
   }
 }
 
@@ -79,14 +78,13 @@ resource "aws_instance" "db2" {
  #  depends_on = ["aws_ami_launch_permission.share_db2_ami"]
 
   tags {
-    Name              = "iDB2-${var.account_name}-${var.vpc_owner}"
-    "bws:Application"   = "OrganizationServices"
-    "bws:Application"   = "SingleSignOn"
-    "bws:Application"   = "FindAnOffice"
-	"bws:Service"       = "Software Quality Assurance and Testing"
+    Name                = "iDB2-${var.account_name}-${var.vpc_owner}"
+	"bws:Environment"   = "${var.environment}"
+	"bws:Service"       = "${var.ses_service}"
     "bws:Software"      = "SQLServer2012"
-    "bws:Owner"         = "SQA"
-    "bws:Description"   = "SQL server that hosts the OrgServices database"
+	"bws:SQLInstance"   = "Default"
+    "bws:Customer"      = "${var.customer_name}"
+    "bws:Description"   = "SQL Server for hosting custom application database"
   }
 }
 
@@ -106,9 +104,10 @@ resource "aws_instance" "dc1" {
   tags {
     Name                = "iDC1-${var.account_name}-${var.vpc_owner}"
     "bws:Application"   = "ActiveDirectory"
-    "bws:Service"       = "Software Quality Assurance and Testing"
-    "bws:Owner"         = "SQA"
-	"bws:Description"   = "Baseline Directory Service"
+	"bws:Environment"   = "${var.environment}"
+    "bws:Service"       = "${var.ses_service}"
+    "bws:Customer"      = "${var.customer_name}"
+	"bws:Description"   = "Baseline Active Directory Service"
   }
 }
 
@@ -125,9 +124,10 @@ resource "aws_instance" "rdp1" {
   # depends_on = ["aws_ami_launch_permission.share_rdp1_ami"]
 
   tags {
-    Name            = "iRDP1-${var.account_name}-${var.vpc_owner}"
-	"bws:Owner"         = "SQA"
-	"bws:Service"       = "Software Quality Assurance and Testing"
+    Name                = "iRDP1-${var.account_name}-${var.vpc_owner}"
+	"bws:Customer"      = "${var.customer_name}"
+	"bws:Environment"   = "${var.environment}"
+	"bws:Service"       = "${var.ses_service}"
 	"bws:Description"   = "Desktop for testers to gain access to their environment to test their application of choice."
   }
 }

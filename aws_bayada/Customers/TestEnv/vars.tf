@@ -20,6 +20,14 @@ variable "nes_office" {
   default = "NES-527"
 }
 
+variable "ses_service" {
+  default = "Enterprise Data and Telecom Networks"
+}
+
+variable "ses_office" {
+  default = "SES-528"
+}
+
 variable "ops_shared_srvc_dev_profile" {
   default = "BWS-OPSSharedServiceDev-FullAdmin"
 }

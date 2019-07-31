@@ -21,9 +21,11 @@ providers = {
  	private		= "2"
  	isolated	= "1"
  }
+ 
  tag_name           = "-${var.account_name}-${var.vpc_owner}"
  tag_customer       = "${var.customer_name}"
  tag_environment    = "${var.environment}"
+
 }
 
 resource "aws_vpc_endpoint" "testenv_s3_access" {
@@ -49,9 +51,9 @@ resource "aws_route" "tgw_default_route" {
 
 resource "aws_ec2_transit_gateway_vpc_attachment" "tgw_attach_cust_vpc" {
   provider                                         = "aws.customer_account"
-  subnet_ids         							                 = ["${module.vpc.subnets_isolated}"]
-  transit_gateway_id 							                 = "${var.transit_gateway_id}"
-  vpc_id             							                 = "${module.vpc.id}"
+  subnet_ids         							   = ["${module.vpc.subnets_isolated}"]
+  transit_gateway_id 							   = "${var.transit_gateway_id}"
+  vpc_id             							   = "${module.vpc.id}"
   transit_gateway_default_route_table_association  = "false"
   transit_gateway_default_route_table_propagation  = "false"
   
