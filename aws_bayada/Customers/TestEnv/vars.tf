@@ -12,6 +12,10 @@ variable "customer_name" {}
 
 variable "environment" {}
 
+variable "instance_scheduler" {
+	default = "RunTime-BusinessHours"
+}
+
 variable "nes_service" {
   default = "Enterprise Data and Telecom Networks"
 }

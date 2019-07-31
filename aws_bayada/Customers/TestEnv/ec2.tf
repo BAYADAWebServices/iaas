@@ -17,6 +17,8 @@ resource "aws_instance" "web1" {
     "bws:Software"      = "IIS"
     "bws:Customer"      = "${var.customer_name}"
     "bws:Description"   = "Web server that hosts custom web applicaiton"
+	"bws:InstanceScheduler" = "${var.instance_scheduler}"
+
   }
 }
 
@@ -39,6 +41,8 @@ resource "aws_instance" "web2" {
     "bws:Software"      = "IIS"
     "bws:Customer"      = "${var.customer_name}"
     "bws:Description"   = "Web server that hosts custom web applicaiton"
+	"bws:InstanceScheduler" = "${var.instance_scheduler}"
+	
   }
 }
 
@@ -62,6 +66,8 @@ resource "aws_instance" "db1" {
 	"bws:Service"       = "${var.ses_service}"
 	"bws:Customer"      = "${var.customer_name}"
 	"bws:Description"   = "SQL Server for hosting custom application database"
+	"bws:InstanceScheduler" = "${var.instance_scheduler}"
+		
   }
 }
 
@@ -85,6 +91,8 @@ resource "aws_instance" "db2" {
 	"bws:SQLInstance"   = "Default"
     "bws:Customer"      = "${var.customer_name}"
     "bws:Description"   = "SQL Server for hosting custom application database"
+	"bws:InstanceScheduler" = "${var.instance_scheduler}"
+		
   }
 }
 
@@ -108,6 +116,8 @@ resource "aws_instance" "dc1" {
     "bws:Service"       = "${var.ses_service}"
     "bws:Customer"      = "${var.customer_name}"
 	"bws:Description"   = "Baseline Active Directory Service"
+	"bws:InstanceScheduler" = "${var.instance_scheduler}"
+		
   }
 }
 
@@ -129,6 +139,8 @@ resource "aws_instance" "rdp1" {
 	"bws:Environment"   = "${var.environment}"
 	"bws:Service"       = "${var.ses_service}"
 	"bws:Description"   = "Desktop for testers to gain access to their environment to test their application of choice."
+	"bws:InstanceScheduler" = "${var.instance_scheduler}"
+	
   }
 }
 
