@@ -3,7 +3,13 @@ resource "aws_network_acl" "main" {
   vpc_id = "${aws_vpc.main.id}"
 
   tags = {
-    Name = "acl${var.tag_name}"
+    Name              = "acl${var.tag_name}"
+	"bws:Description" = "Default Network ACL to allow all traffic in and out"
+    "bws:Service"     = "${var.tag_service}"
+    "bws:Office"      = "${var.tag_office}"
+    "bws:Environment" = "${var.tag_environment}"
+    "bws:Customer"    = "${var.tag_customer}"
+	
   }
 }
 
