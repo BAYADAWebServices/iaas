@@ -31,3 +31,6 @@ variable "account_name" {
   default = "OPSSharedServicesDev"
 }
 
+variable "jenkins_key_pair" {
+	default = "jenkins"
+}

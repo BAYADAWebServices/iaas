@@ -1,7 +1,7 @@
 module "vpc" {
  source        = "../../../modules/m-vpc"
  cidr_block     = "10.20.0.0/24"
- az_width	    = "1"
+ az_width	    = "2"
  nat_instances	= "1"
  newbits {
  	public 		= "1"
