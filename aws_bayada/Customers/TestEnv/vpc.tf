@@ -64,6 +64,7 @@ resource "aws_ec2_transit_gateway_vpc_attachment" "tgw_attach_cust_vpc" {
     "bws:Office"      = "${var.nes_office}"
     "bws:Environment" = "${var.environment}"
     "bws:Customer"    = "${var.customer_name}"
+	"bws:Owner"	      = "JEFF"
   }
 }
 
