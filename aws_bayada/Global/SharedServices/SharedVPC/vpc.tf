@@ -4,13 +4,13 @@ module "vpc" {
  az_width	    = "2"
  nat_instances	= "1"
  newbits {
- 	public 		= "1"
- 	private 	= "1"
+ 	public 		= "2"
+ 	private 	= "2"
  	isolated 	= "0"
  }
  subnet_map {
-    public   	= "1"
-    private  	= "1"
+    public   	= "2"
+    private  	= "2"
     isolated 	= "0"
  }      
  netnum_shift_map {
