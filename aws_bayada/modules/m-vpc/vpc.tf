@@ -1,4 +1,5 @@
 resource "aws_vpc" "main" {
+
   cidr_block = "${var.cidr_block}"
   enable_dns_support   = "true"
   enable_dns_hostnames = "true"
@@ -13,4 +14,5 @@ resource "aws_vpc" "main" {
     "bws:Environment" = "${var.tag_environment}"
     "bws:Customer"    = "${var.tag_customer}"
   }
+  
 }

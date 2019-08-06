@@ -1,4 +1,5 @@
 resource "aws_subnet" "public" {
+
   count = "${var.subnet_map["public"]}"
 
   vpc_id     = "${aws_vpc.main.id}"

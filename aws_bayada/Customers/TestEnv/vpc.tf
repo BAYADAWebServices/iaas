@@ -38,7 +38,7 @@ resource "aws_vpc_endpoint" "testenv_s3_access" {
 resource "aws_main_route_table_association" "cust_priv_rt" {
   provider        = "aws.customer_account"
   vpc_id          = "${module.vpc.id}"
-  route_table_id = "${module.vpc.routes_isolated[0]}"
+  route_table_id  = "${module.vpc.routes_isolated[0]}"
 }
 
 
@@ -64,7 +64,7 @@ resource "aws_ec2_transit_gateway_vpc_attachment" "tgw_attach_cust_vpc" {
     "bws:Office"      = "${var.nes_office}"
     "bws:Environment" = "${var.environment}"
     "bws:Customer"    = "${var.customer_name}"
-	"bws:Owner"	      = "JEFF"
+
   }
 }
 

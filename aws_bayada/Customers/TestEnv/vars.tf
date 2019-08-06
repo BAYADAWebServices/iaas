@@ -12,6 +12,14 @@ variable "customer_name" {}
 
 variable "environment" {}
 
+variable "web1_name" {
+	default = "WEBAPP01"
+}
+
+variable "admin_password" {
+	default = "B@y@d@nurse$1975"
+}
+
 variable "instance_scheduler" {
 	default = "RunTime-BusinessHours"
 }
@@ -40,6 +48,10 @@ variable "ses_shared_srvc_dev_profile" {
   default = "BWS-SESSharedServiceNonProd-FullAdmin"
 }
 
+variable "shared_acct_name" {
+  default = "bws-ops-shared-dev"
+}
+
 variable "key_name" {
   default = "kpInstanceKey"
 }
@@ -51,6 +63,7 @@ variable "region" {
 variable "default_route" { 
   default = "0.0.0.0/0"
 }
+
 variable "transit_gateway_id" { 
   default = "tgw-026f34280a5ac6dd0"
 }
@@ -61,10 +74,6 @@ variable "vpn_attach_id" {
 
 variable "vpn_tgw_rt_id" {
    default = "tgw-rtb-003fcf0fb8f40b369"
-}
-
-variable "shared_acct_name" {
-  default = "bws-ops-shared-dev"
 }
 
 variable "shared_tgw_rt_id" {

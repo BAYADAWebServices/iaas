@@ -1,6 +1,7 @@
 resource "aws_instance" "web1" {
   provider                    = "aws.customer_account"
-  ami                         = "${var.ami_web1}"
+  #ami                         = "${var.ami_web1}"
+  ami                         = "${data.aws_ami.web.id}"
   instance_type               = "${var.web1_instance_size}"
   subnet_id                   = "${module.vpc.subnets_isolated[0]}"
   vpc_security_group_ids      = ["${aws_security_group.web1.id}"]
@@ -8,8 +9,29 @@ resource "aws_instance" "web1" {
   key_name                    = "${var.key_name}"
   tenancy                     = "default"
   associate_public_ip_address = "false"
-  # depends_on = ["aws_ami_launch_permission.share_web_ami"]
-
+  
+  user_data				  = "${data.template_file.web1-init.rendered}"
+  #depends_on = ["aws_ami_launch_permission.share_web_ami"]
+  
+/*
+  provisioner "file" {
+    source      = "C:\\github\\iaas\\aws_bayada\\Customers\\TestEnv\\download.ps1"
+    destination = "C:\\scripts\\download.ps1"
+  }
+ 
+  provisioner "remote-exec" {
+	connection {
+      type     = "winrm"
+      user     = "Administrator"
+      password = "${var.admin_password}"
+    }
+    inline = [
+      "powershell -Command \"&{Rename-Computer -NewName ${var.web1_name} -Restart}\"",
+	  "powershell -File \"C:\\windows\\temp\\download.ps1\"",
+    ]
+  }
+*/
+  
   tags {
     Name                = "iWeb1-${var.account_name}-${var.vpc_owner}"
 	"bws:Environment"   = "${var.environment}"
@@ -22,9 +44,11 @@ resource "aws_instance" "web1" {
   }
 }
 
+/*
 resource "aws_instance" "web2" {
   provider                    = "aws.customer_account"
-  ami                         = "${var.ami_web2}"
+  #ami                         = "${var.ami_web2}"
+  ami                         = "${data.aws_ami.web.id}"   
   instance_type               = "${var.web2_instance_size}"
   subnet_id                   = "${module.vpc.subnets_isolated[0]}"
   vpc_security_group_ids      = ["${aws_security_group.web2.id}"]
@@ -48,7 +72,8 @@ resource "aws_instance" "web2" {
 
 resource "aws_instance" "db1" {
   provider                    = "aws.customer_account"
-  ami                         = "${var.ami_db1}"
+  #ami                         = "${var.ami_db1}"
+  ami                         = "${data.aws_ami.db-default.id}" 
   instance_type               = "${var.db1_instance_size}"
   subnet_id                   = "${module.vpc.subnets_isolated[0]}"
   vpc_security_group_ids      = ["${aws_security_group.db1.id}"]
@@ -73,7 +98,8 @@ resource "aws_instance" "db1" {
 
 resource "aws_instance" "db2" {
   provider                    = "aws.customer_account"
-  ami                         = "${var.ami_db2}"
+  #ami                         = "${var.ami_db2}"
+  ami                         = "${data.aws_ami.db-gp.id}"  
   instance_type               = "${var.db2_instance_size}"
   subnet_id                   = "${module.vpc.subnets_isolated[0]}"
   vpc_security_group_ids      = ["${aws_security_group.db2.id}"]
@@ -98,7 +124,8 @@ resource "aws_instance" "db2" {
 
 resource "aws_instance" "dc1" {
   provider                    = "aws.customer_account"
-  ami                         = "${var.ami_dc1}"
+  #ami                        = "${var.ami_dc1}"
+  ami                         = "${data.aws_ami.dc.id}" 
   instance_type               = "${var.dc1_instance_size}"
   subnet_id                   = "${module.vpc.subnets_isolated[0]}"
   vpc_security_group_ids      = ["${aws_security_group.dc1.id}"]
@@ -143,4 +170,4 @@ resource "aws_instance" "rdp1" {
 	
   }
 }
-
+*/

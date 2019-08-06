@@ -1,7 +1,7 @@
 resource "aws_eip" "nat" {
+
   count = "${var.nat_instances}"
   vpc   = "true"
-
 
   tags {
     Name              = "eip${var.tag_name}"
