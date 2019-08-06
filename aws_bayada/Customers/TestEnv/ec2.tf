@@ -10,23 +10,37 @@ resource "aws_instance" "web1" {
   tenancy                     = "default"
   associate_public_ip_address = "false"
   
-  user_data				  = "${data.template_file.web1-init.rendered}"
+  #user_data				  = "${data.template_file.web1-init.rendered}"
   #depends_on = ["aws_ami_launch_permission.share_web_ami"]
+
+  provisioner "file" {
+  	connection {
+      type     = "winrm"
+      user     = "Administrator"
+      password = "BAyaDanurseS1975"
+	  timeout  = "7m"
+	  use_ntlm = "true"
+	  insecure = "true"
+    }
   
-/*
+    source      = "d:\\github\\iaas\\aws_bayada\\Customers\\TestEnv\\test.txt"
+    destination = "c:\\scripts\\test.txt"
+  }
  
   provisioner "remote-exec" {
 	connection {
       type     = "winrm"
       user     = "Administrator"
       password = "${var.admin_password}"
+	  timeout  = "7m"
+	  use_ntlm = "true"
+	  insecure = "true"
     }
     inline = [
-      "powershell -Command \"&{Rename-Computer -NewName ${var.web1_name} -Restart}\"",
-	  "powershell -File \"C:\\windows\\temp\\download.ps1\"",
+		"powershell.exe Set-ExecutionPolicy RemoteSigned -force",
+		"powershell.exe -Command \"&{Rename-Computer -NewName ${var.web1_name} -Restart}\"",
     ]
   }
-*/
   
   tags {
     Name                = "iWeb1-${var.account_name}-${var.vpc_owner}"
@@ -34,7 +48,7 @@ resource "aws_instance" "web1" {
     "bws:Service"       = "${var.ses_service}"
     "bws:Software"      = "IIS"
     "bws:Customer"      = "${var.customer_name}"
-    "bws:Description"   = "Web server that hosts custom web applicaiton"
+    "bws:Description"   = "Web server that hosts custom web application"
 	"bws:InstanceScheduler" = "${var.instance_scheduler}"
 
   }

@@ -17,7 +17,7 @@ variable "web1_name" {
 }
 
 variable "admin_password" {
-	default = "B@y@d@nurse$1975"
+	default = "BAyaDanurseS1975"
 }
 
 variable "instance_scheduler" {
