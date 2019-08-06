@@ -14,10 +14,6 @@ resource "aws_instance" "web1" {
   #depends_on = ["aws_ami_launch_permission.share_web_ami"]
   
 /*
-  provisioner "file" {
-    source      = "C:\\github\\iaas\\aws_bayada\\Customers\\TestEnv\\download.ps1"
-    destination = "C:\\scripts\\download.ps1"
-  }
  
   provisioner "remote-exec" {
 	connection {
