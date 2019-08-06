@@ -59,7 +59,7 @@ resource "aws_ec2_transit_gateway_vpc_attachment" "tgw_attach_cust_vpc" {
   
   tags                                             = {
     Name              = "tgwAttachment-${var.account_name}-${var.vpc_owner}"
-	"bws:Description" = "Transit Gateway Attachemnt for ${var.vpc_owner} to OPS Shared Services Transit Gateway"
+	"bws:Description" = "Transit Gateway Attachment for ${var.vpc_owner} to OPS Shared Services Transit Gateway"
     "bws:Service"     = "${var.nes_service}"
     "bws:Office"      = "${var.nes_office}"
     "bws:Environment" = "${var.environment}"
