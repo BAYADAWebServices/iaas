@@ -58,13 +58,16 @@ data "aws_ami" "db-gp" {
 
 }
 
-/*
 data "template_file" "web1-userdata" {
    template = <<EOF
 		<powershell>
-			Rename-Computer -NewName "WEB1" -restart -force
+			$adapter = Get-NetAdapter -Name 'Ethernet*'
+			$nic = Get-WmiObject Win32_NetworkAdapterConfiguration -filter "ipenabled = 'true'"
+			$nic.SetTcpipNetbios(1)
+			$nic.SetWINSServer("${aws_instance.dc1.private_ip}","${aws_instance.dc1.private_ip}")
+			Set-DNSClientServerAddress -InterfaceAlias $adapter.Name -ServerAddresses ("10.20.30.193")
+			Set-DnsClientGlobalSetting -SuffixSearchList @($null)
 		</powershell>
 	EOF
 
 }
-*/

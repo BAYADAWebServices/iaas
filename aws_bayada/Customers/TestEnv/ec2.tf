@@ -26,7 +26,7 @@ resource "aws_instance" "dc1" {
 
 resource "aws_instance" "web1" {
   provider                    = "aws.customer_account"
-  #ami                         = "${var.ami_web1}"
+  #ami                        = "${var.ami_web1}"
   ami                         = "${data.aws_ami.web.id}"
   instance_type               = "${var.web1_instance_size}"
   subnet_id                   = "${module.vpc.subnets_isolated[0]}"
@@ -36,8 +36,7 @@ resource "aws_instance" "web1" {
   tenancy                     = "default"
   associate_public_ip_address = "false"
   
-  #user_data				  = "${data.template_file.web1-userdata.rendered}"
-  #depends_on = ["aws_ami_launch_permission.share_web_ami"]
+  user_data				      = "${data.template_file.web1-userdata.rendered}"
   depends_on  = ["aws_instance.dc1"]
 
   provisioner "remote-exec" {
