@@ -58,7 +58,8 @@ data "aws_ami" "db-gp" {
 
 }
 
-data "template_file" "web1-init" {
+/*
+data "template_file" "web1-userdata" {
    template = <<EOF
 		<powershell>
 			Rename-Computer -NewName "WEB1" -restart -force
@@ -66,3 +67,4 @@ data "template_file" "web1-init" {
 	EOF
 
 }
+*/

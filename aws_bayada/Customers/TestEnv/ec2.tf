@@ -1,3 +1,29 @@
+resource "aws_instance" "dc1" {
+  provider                    = "aws.customer_account"
+  #ami                        = "${var.ami_dc1}"
+  ami                         = "${data.aws_ami.dc.id}" 
+  instance_type               = "${var.dc1_instance_size}"
+  subnet_id                   = "${module.vpc.subnets_isolated[0]}"
+  vpc_security_group_ids      = ["${aws_security_group.dc1.id}"]
+  iam_instance_profile        = "${aws_iam_instance_profile.S3_profile.name}"
+  key_name                    = "${var.key_name}"
+  tenancy                     = "default"
+  associate_public_ip_address = "false"
+  # depends_on = ["aws_ami_launch_permission.share_dc1_ami"]
+  depends_on  = ["aws_ec2_transit_gateway_vpc_attachment.tgw_attach_cust_vpc"]
+
+  tags {
+    Name                = "iDC1-${var.account_name}-${var.vpc_owner}"
+    "bws:Application"   = "ActiveDirectory"
+	"bws:Environment"   = "${var.environment}"
+    "bws:Service"       = "${var.ses_service}"
+    "bws:Customer"      = "${var.customer_name}"
+	"bws:Description"   = "Baseline Active Directory Service"
+	"bws:InstanceScheduler" = "${var.instance_scheduler}"
+		
+  }
+}
+
 resource "aws_instance" "web1" {
   provider                    = "aws.customer_account"
   #ami                         = "${var.ami_web1}"
@@ -10,23 +36,10 @@ resource "aws_instance" "web1" {
   tenancy                     = "default"
   associate_public_ip_address = "false"
   
-  #user_data				  = "${data.template_file.web1-init.rendered}"
+  #user_data				  = "${data.template_file.web1-userdata.rendered}"
   #depends_on = ["aws_ami_launch_permission.share_web_ami"]
+  depends_on  = ["aws_instance.dc1"]
 
-  provisioner "file" {
-  	connection {
-      type     = "winrm"
-      user     = "Administrator"
-      password = "BAyaDanurseS1975"
-	  timeout  = "7m"
-	  use_ntlm = "true"
-	  insecure = "true"
-    }
-  
-    source      = "d:\\github\\iaas\\aws_bayada\\Customers\\TestEnv\\test.txt"
-    destination = "c:\\scripts\\test.txt"
-  }
- 
   provisioner "remote-exec" {
 	connection {
       type     = "winrm"
@@ -37,20 +50,27 @@ resource "aws_instance" "web1" {
 	  insecure = "true"
     }
     inline = [
+		"echo certname=${lower(var.web1_name)}.${lower(var.vpc_owner)}${lower(var.internal_dns)} >> %PROGRAMDATA%\\PuppetLabs\\puppet\\etc\\puppet.conf",
+		"echo environment=${lower(var.puppet-env)} >> %PROGRAMDATA%\\PuppetLabs\\puppet\\etc\\puppet.conf",
+		"echo runinterval=${var.puppet-interval} >> %PROGRAMDATA%\\PuppetLabs\\puppet\\etc\\puppet.conf",
+		"echo log_level=${lower(var.puppet-log-level)} >> %PROGRAMDATA%\\PuppetLabs\\puppet\\etc\\puppet.conf",
+		"sc config puppet start=auto",
+		"net start puppet",
 		"powershell.exe Set-ExecutionPolicy RemoteSigned -force",
 		"powershell.exe -Command \"&{Rename-Computer -NewName ${var.web1_name} -Restart}\"",
+		
     ]
   }
   
   tags {
-    Name                = "iWeb1-${var.account_name}-${var.vpc_owner}"
-	"bws:Environment"   = "${var.environment}"
-    "bws:Service"       = "${var.ses_service}"
-    "bws:Software"      = "IIS"
-    "bws:Customer"      = "${var.customer_name}"
-    "bws:Description"   = "Web server that hosts custom web application"
+    Name                    = "iWeb1-${var.account_name}-${var.vpc_owner}"
+	"bws:Environment"       = "${var.environment}"
+    "bws:Service"           = "${var.ses_service}"
+    "bws:Software"          = "IIS"
+    "bws:Customer"          = "${var.customer_name}"
+    "bws:Description"       = "Web server that hosts custom web application"
 	"bws:InstanceScheduler" = "${var.instance_scheduler}"
-
+	"bws:PuppetCertName"    = "${lower(var.web1_name)}.${lower(var.vpc_owner)}${lower(var.internal_dns)}"
   }
 }
 
@@ -127,32 +147,6 @@ resource "aws_instance" "db2" {
 	"bws:SQLInstance"   = "Default"
     "bws:Customer"      = "${var.customer_name}"
     "bws:Description"   = "SQL Server for hosting custom application database"
-	"bws:InstanceScheduler" = "${var.instance_scheduler}"
-		
-  }
-}
-
-resource "aws_instance" "dc1" {
-  provider                    = "aws.customer_account"
-  #ami                        = "${var.ami_dc1}"
-  ami                         = "${data.aws_ami.dc.id}" 
-  instance_type               = "${var.dc1_instance_size}"
-  subnet_id                   = "${module.vpc.subnets_isolated[0]}"
-  vpc_security_group_ids      = ["${aws_security_group.dc1.id}"]
-  iam_instance_profile        = "${aws_iam_instance_profile.S3_profile.name}"
-  key_name                    = "${var.key_name}"
-  tenancy                     = "default"
-  associate_public_ip_address = "false"
-  # depends_on = ["aws_ami_launch_permission.share_dc1_ami"]
-
-
-  tags {
-    Name                = "iDC1-${var.account_name}-${var.vpc_owner}"
-    "bws:Application"   = "ActiveDirectory"
-	"bws:Environment"   = "${var.environment}"
-    "bws:Service"       = "${var.ses_service}"
-    "bws:Customer"      = "${var.customer_name}"
-	"bws:Description"   = "Baseline Active Directory Service"
 	"bws:InstanceScheduler" = "${var.instance_scheduler}"
 		
   }

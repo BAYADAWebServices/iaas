@@ -12,8 +12,24 @@ variable "customer_name" {}
 
 variable "environment" {}
 
+variable "puppet-interval" {
+	default = "60"
+}
+
+variable "puppet-log-level" {
+	default = "debug"
+}
+
+variable "puppet-env" {
+	default = "devtest"
+}
+
 variable "web1_name" {
 	default = "WEBAPP01"
+}
+
+variable "internal_dns" {
+	default = ".bws.cloud"
 }
 
 variable "admin_password" {
