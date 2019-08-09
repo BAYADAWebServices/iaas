@@ -24,6 +24,8 @@ variable "puppet-env" {
 	default = "devtest"
 }
 
+variable "bayapp" {}
+
 variable "web1_name" {
 	default = "WEBAPP01"
 }
