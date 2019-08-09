@@ -28,6 +28,10 @@ variable "web1_name" {
 	default = "WEBAPP01"
 }
 
+variable "dc1_name" {
+	default = "BAYADDC01"
+}
+
 variable "internal_dns" {
 	default = ".bws.cloud"
 }

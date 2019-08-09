@@ -12,7 +12,27 @@ resource "aws_instance" "dc1" {
   
   #depends_on = ["aws_ami_launch_permission.share_dc1_ami"]
   depends_on  = ["aws_ec2_transit_gateway_vpc_attachment.tgw_attach_cust_vpc"]
-
+  
+  provisioner "remote-exec" {
+	connection {
+      type     = "winrm"
+      user     = "Administrator"
+      password = "${var.admin_password}"
+	  timeout  = "5m"
+	  use_ntlm = "true"
+	  insecure = "true"
+    }
+    inline = [
+		"echo certname=${lower(var.dc1_name)}.${lower(var.vpc_owner)}${lower(var.internal_dns)} >> %PROGRAMDATA%\\PuppetLabs\\puppet\\etc\\puppet.conf",
+		"echo environment=${lower(var.puppet-env)} >> %PROGRAMDATA%\\PuppetLabs\\puppet\\etc\\puppet.conf",
+		"echo runinterval=${var.puppet-interval} >> %PROGRAMDATA%\\PuppetLabs\\puppet\\etc\\puppet.conf",
+		"echo log_level=${lower(var.puppet-log-level)} >> %PROGRAMDATA%\\PuppetLabs\\puppet\\etc\\puppet.conf",
+		"sc config puppet start=auto",
+		"net start puppet",
+		
+    ]
+  }
+  
   tags {
     Name                = "iDC1-${var.account_name}-${var.vpc_owner}"
     "bws:Application"   = "ActiveDirectory"
@@ -21,7 +41,7 @@ resource "aws_instance" "dc1" {
     "bws:Customer"      = "${var.customer_name}"
 	"bws:Description"   = "Baseline Active Directory Service"
 	"bws:InstanceScheduler" = "${var.instance_scheduler}"
-		
+	"bws:PuppetCertName"    = "${lower(var.dc1_name)}.${lower(var.vpc_owner)}${lower(var.internal_dns)}"
   }
 }
 
@@ -37,7 +57,7 @@ resource "aws_instance" "web1" {
   tenancy                     = "default"
   associate_public_ip_address = "false"
   
-  user_data				      = "${data.template_file.web1-userdata.rendered}"
+  user_data				      = "${data.template_file.default-userdata.rendered}"
   depends_on                  = ["aws_instance.dc1"]
 
   provisioner "remote-exec" {
@@ -74,7 +94,7 @@ resource "aws_instance" "web1" {
   }
 }
 
-/*
+
 resource "aws_instance" "web2" {
   provider                    = "aws.customer_account"
   #ami                         = "${var.ami_web2}"
@@ -86,8 +106,32 @@ resource "aws_instance" "web2" {
   key_name                    = "${var.key_name}"
   tenancy                     = "default"
   associate_public_ip_address = "false"
-  # depends_on = ["aws_ami_launch_permission.share_web_ami"]
 
+  user_data				      = "${data.template_file.default-userdata.rendered}"
+  depends_on                  = ["aws_instance.dc1"]
+
+  provisioner "remote-exec" {
+	connection {
+      type     = "winrm"
+      user     = "Administrator"
+      password = "${var.admin_password}"
+	  timeout  = "7m"
+	  use_ntlm = "true"
+	  insecure = "true"
+    }
+    inline = [
+		"echo certname=${lower(var.web1_name)}.${lower(var.vpc_owner)}${lower(var.internal_dns)} >> %PROGRAMDATA%\\PuppetLabs\\puppet\\etc\\puppet.conf",
+		"echo environment=${lower(var.puppet-env)} >> %PROGRAMDATA%\\PuppetLabs\\puppet\\etc\\puppet.conf",
+		"echo runinterval=${var.puppet-interval} >> %PROGRAMDATA%\\PuppetLabs\\puppet\\etc\\puppet.conf",
+		"echo log_level=${lower(var.puppet-log-level)} >> %PROGRAMDATA%\\PuppetLabs\\puppet\\etc\\puppet.conf",
+		"sc config puppet start=auto",
+		"net start puppet",
+		"powershell.exe Set-ExecutionPolicy RemoteSigned -force",
+		"powershell.exe -Command \"&{Rename-Computer -NewName ${var.web1_name} -Restart}\"",
+		
+    ]
+  }
+  
   tags {
     Name                = "iWeb2-${var.account_name}-${var.vpc_owner}"
 	"bws:Environment"   = "${var.environment}"
@@ -100,6 +144,7 @@ resource "aws_instance" "web2" {
   }
 }
 
+/*
 resource "aws_instance" "db1" {
   provider                    = "aws.customer_account"
   #ami                         = "${var.ami_db1}"

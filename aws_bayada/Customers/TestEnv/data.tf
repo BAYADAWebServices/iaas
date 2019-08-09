@@ -58,14 +58,14 @@ data "aws_ami" "db-gp" {
 
 }
 
-data "template_file" "web1-userdata" {
+data "template_file" "default-userdata" {
    template = <<EOF
 		<powershell>
 			$adapter = Get-NetAdapter -Name 'Ethernet*'
 			$nic = Get-WmiObject Win32_NetworkAdapterConfiguration -filter "ipenabled = 'true'"
 			$nic.SetTcpipNetbios(1)
 			$nic.SetWINSServer("${aws_instance.dc1.private_ip}","${aws_instance.dc1.private_ip}")
-			Set-DNSClientServerAddress -InterfaceAlias $adapter.Name -ServerAddresses ("10.20.30.193")
+			Set-DNSClientServerAddress -InterfaceAlias $adapter.Name -ServerAddresses ("${aws_instance.dc1.private_ip}")
 			Set-DnsClientGlobalSetting -SuffixSearchList @($null)
 		</powershell>
 	EOF
