@@ -9,7 +9,8 @@ resource "aws_instance" "dc1" {
   key_name                    = "${var.key_name}"
   tenancy                     = "default"
   associate_public_ip_address = "false"
-  # depends_on = ["aws_ami_launch_permission.share_dc1_ami"]
+  
+  #depends_on = ["aws_ami_launch_permission.share_dc1_ami"]
   depends_on  = ["aws_ec2_transit_gateway_vpc_attachment.tgw_attach_cust_vpc"]
 
   tags {
@@ -37,7 +38,7 @@ resource "aws_instance" "web1" {
   associate_public_ip_address = "false"
   
   user_data				      = "${data.template_file.web1-userdata.rendered}"
-  depends_on  = ["aws_instance.dc1"]
+  depends_on                  = ["aws_instance.dc1"]
 
   provisioner "remote-exec" {
 	connection {
