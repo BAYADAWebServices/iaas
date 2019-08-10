@@ -16,9 +16,10 @@
 # vpcowner: The test user who will utilize the vpc.
 
 
-if [ "$#" -lt 9 ]
+if [ "$#" -lt 10 ]
 then
   echo "Usage: ./deploy.sh {terraform_function} {region} {vpcsubnet} {terraform-env} {accountrole} {accountname} {accountid} {vpcowner} {customer} {environment} {bayada app} from directory of tf code"
+
   exit 1
 fi
 
@@ -31,8 +32,8 @@ ACCOUNTNAME=$6
 ACCOUNTID=$7
 VPCOWNER=$8
 CUSTOMER=$9
-ENVIRONMENT=$10
-BAYAPP=$11
+ENVIRONMENT=${10}
+BAYAPP=${11}
 
 rm -rf ./.terraform ./terraform.tfstate.d ./terraform.tfstate*
 terraform init --backend-config=backend-us-east-1-testenv.tfvars
