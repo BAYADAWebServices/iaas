@@ -135,7 +135,7 @@ resource "aws_instance" "web2" {
 		"sc config puppet start=auto",
 		"net start puppet",
 		"powershell.exe Set-ExecutionPolicy RemoteSigned -force",
-		"powershell.exe -Command \"&{Rename-Computer -NewName ${var.web1_name} -Restart}\"",
+		"powershell.exe -Command \"&{Rename-Computer -NewName ${var.web2_name} -Restart}\"",
 		
     ]
   }
@@ -146,7 +146,7 @@ resource "aws_instance" "web2" {
     "bws:Service"       = "${var.ses_service}"
     "bws:Software"      = "IIS"
     "bws:Customer"      = "${var.customer_name}"
-    "bws:Description"   = "Web server that hosts custom web applicaiton"
+    "bws:Description"   = "Web server that hosts custom web application"
 	"bws:InstanceScheduler" = "${var.instance_scheduler}"
 	
   }

@@ -30,7 +30,7 @@ variable "web1_name" {
 	default = "WEBAPP01"
 }
 
-variable "web1_name" {
+variable "web2_name" {
 	default = "WEBAPP02"
 }
 variable "dc1_name" {
