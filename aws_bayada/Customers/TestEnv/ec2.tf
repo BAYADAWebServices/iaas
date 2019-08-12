@@ -26,7 +26,8 @@ resource "aws_instance" "dc1" {
 		"echo certname=${lower(var.dc1_name)}.${lower(var.vpc_owner)}${lower(var.internal_dns)} >> %PROGRAMDATA%\\PuppetLabs\\puppet\\etc\\puppet.conf",
 		"echo environment=${lower(var.puppet-env)} >> %PROGRAMDATA%\\PuppetLabs\\puppet\\etc\\puppet.conf",
 		"echo runinterval=${var.puppet-interval} >> %PROGRAMDATA%\\PuppetLabs\\puppet\\etc\\puppet.conf",
-		"echo log_level=${lower(var.puppet-log-level)} >> %PROGRAMDATA%\\PuppetLabs\\puppet\\etc\\puppet.conf",	
+		"echo log_level=${lower(var.puppet-log-level)} >> %PROGRAMDATA%\\PuppetLabs\\puppet\\etc\\puppet.conf",
+		
 		"sc config puppet start=auto",
 		"net start puppet",
 		
@@ -57,7 +58,7 @@ resource "aws_instance" "web1" {
   tenancy                     = "default"
   associate_public_ip_address = "false"
   
-  user_data				      = "${data.template_file.default-userdata.rendered}"
+  #user_data				      = "${data.template_file.default-userdata.rendered}"
   depends_on                  = ["aws_instance.dc1"]
 
   provisioner "remote-exec" {
@@ -77,10 +78,19 @@ resource "aws_instance" "web1" {
 		
 		"echo --- > %PROGRAMDATA%\\PuppetLabs\\facter\\facts.d\\bayada.yaml",
 		"echo   bayapp: ${lower(var.bayapp)} >> %PROGRAMDATA%\\PuppetLabs\\facter\\facts.d\\bayada.yaml",
-		
+
+		"echo $adapter = Get-NetAdapter -Name 'Ethernet*' > C:\\scripts\\dns-config.ps1",
+		"echo $nic = Get-WmiObject Win32_NetworkAdapterConfiguration -filter \"ipenabled = 'true'\" >> C:\\scripts\\dns-config.ps1",
+		"echo $nic.SetTcpipNetbios(1) >> C:\\scripts\\dns-config.ps1",
+		"echo $nic.SetWINSServer(\"${aws_instance.dc1.private_ip}\",\"${aws_instance.dc1.private_ip}\") >> C:\\scripts\\dns-config.ps1",
+		"echo Set-DNSClientServerAddress -InterfaceAlias $adapter.Name -ServerAddresses (\"${aws_instance.dc1.private_ip}\") >> C:\\scripts\\dns-config.ps1",
+		"echo Set-DnsClientGlobalSetting -SuffixSearchList @($null) >> C:\\scripts\\dns-config.ps1",
+
 		"sc config puppet start=auto",
 		"net start puppet",
+		
 		"powershell.exe Set-ExecutionPolicy RemoteSigned -force",
+		"powershell.exe -File C:\\scripts\\dns-config.ps1",
 		"powershell.exe -Command \"&{Rename-Computer -NewName ${var.web1_name} -Restart}\"",
 		
     ]
@@ -111,7 +121,7 @@ resource "aws_instance" "web2" {
   tenancy                     = "default"
   associate_public_ip_address = "false"
 
-  user_data				      = "${data.template_file.default-userdata.rendered}"
+  #user_data				      = "${data.template_file.default-userdata.rendered}"
   depends_on                  = ["aws_instance.dc1"]
 
   provisioner "remote-exec" {
@@ -131,10 +141,19 @@ resource "aws_instance" "web2" {
 		
 		"echo --- > %PROGRAMDATA%\\PuppetLabs\\facter\\facts.d\\bayada.yaml",
 		"echo   bayapp: ${lower(var.bayapp)} >> %PROGRAMDATA%\\PuppetLabs\\facter\\facts.d\\bayada.yaml",
+
+		"echo $adapter = Get-NetAdapter -Name 'Ethernet*' > C:\\scripts\\dns-config.ps1",
+		"echo $nic = Get-WmiObject Win32_NetworkAdapterConfiguration -filter \"ipenabled = 'true'\" >> C:\\scripts\\dns-config.ps1",
+		"echo $nic.SetTcpipNetbios(1) >> C:\\scripts\\dns-config.ps1",
+		"echo $nic.SetWINSServer(\"${aws_instance.dc1.private_ip}\",\"${aws_instance.dc1.private_ip}\") >> C:\\scripts\\dns-config.ps1",
+		"echo Set-DNSClientServerAddress -InterfaceAlias $adapter.Name -ServerAddresses (\"${aws_instance.dc1.private_ip}\") >> C:\\scripts\\dns-config.ps1",
+		"echo Set-DnsClientGlobalSetting -SuffixSearchList @($null) >> C:\\scripts\\dns-config.ps1",
 		
 		"sc config puppet start=auto",
 		"net start puppet",
+		
 		"powershell.exe Set-ExecutionPolicy RemoteSigned -force",
+		"powershell.exe -File C:\\scripts\\dns-config.ps1",
 		"powershell.exe -Command \"&{Rename-Computer -NewName ${var.web2_name} -Restart}\"",
 		
     ]
@@ -148,7 +167,7 @@ resource "aws_instance" "web2" {
     "bws:Customer"      = "${var.customer_name}"
     "bws:Description"   = "Web server that hosts custom web application"
 	"bws:InstanceScheduler" = "${var.instance_scheduler}"
-	
+	"bws:PuppetCertName"    = "${lower(var.web2_name)}.${lower(var.vpc_owner)}${lower(var.internal_dns)}"
   }
 }
 
