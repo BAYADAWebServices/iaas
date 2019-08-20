@@ -28,6 +28,9 @@ resource "aws_instance" "dc1" {
 		"echo runinterval=${var.puppet-interval} >> %PROGRAMDATA%\\PuppetLabs\\puppet\\etc\\puppet.conf",
 		"echo log_level=${lower(var.puppet-log-level)} >> %PROGRAMDATA%\\PuppetLabs\\puppet\\etc\\puppet.conf",
 		
+		"echo. >> %systemroot%\\system32\\drivers\\etc\\hosts",
+		"echo ${var.puppet}	puppet.ec2.internal >> %systemroot%\\system32\\drivers\\etc\\hosts",
+	
 		"sc config puppet start=auto",
 		"net start puppet",
 		
@@ -46,6 +49,7 @@ resource "aws_instance" "dc1" {
   }
 }
 
+/*
 resource "aws_instance" "web1" {
   provider                    = "aws.customer_account"
   #ami                        = "${var.ami_web1}"
@@ -85,7 +89,10 @@ resource "aws_instance" "web1" {
 		"echo $nic.SetWINSServer(\"${aws_instance.dc1.private_ip}\",\"${aws_instance.dc1.private_ip}\") >> C:\\scripts\\dns-config.ps1",
 		"echo Set-DNSClientServerAddress -InterfaceAlias $adapter.Name -ServerAddresses (\"${aws_instance.dc1.private_ip}\") >> C:\\scripts\\dns-config.ps1",
 		"echo Set-DnsClientGlobalSetting -SuffixSearchList @($null) >> C:\\scripts\\dns-config.ps1",
-
+		
+		"echo. >> %systemroot%\\system32\\drivers\\etc\\hosts",
+		"echo ${var.puppet}	puppet.ec2.internal >> %systemroot%\\system32\\drivers\\etc\\hosts",
+		
 		"sc config puppet start=auto",
 		"net start puppet",
 		
@@ -149,6 +156,9 @@ resource "aws_instance" "web2" {
 		"echo Set-DNSClientServerAddress -InterfaceAlias $adapter.Name -ServerAddresses (\"${aws_instance.dc1.private_ip}\") >> C:\\scripts\\dns-config.ps1",
 		"echo Set-DnsClientGlobalSetting -SuffixSearchList @($null) >> C:\\scripts\\dns-config.ps1",
 		
+		"echo. >> %systemroot%\\system32\\drivers\\etc\\hosts",
+		"echo ${var.puppet}	puppet.ec2.internal >> %systemroot%\\system32\\drivers\\etc\\hosts",
+		
 		"sc config puppet start=auto",
 		"net start puppet",
 		
@@ -209,6 +219,9 @@ resource "aws_instance" "db1" {
 		"echo Set-DNSClientServerAddress -InterfaceAlias $adapter.Name -ServerAddresses (\"${aws_instance.dc1.private_ip}\") >> C:\\scripts\\dns-config.ps1",
 		"echo Set-DnsClientGlobalSetting -SuffixSearchList @($null) >> C:\\scripts\\dns-config.ps1",
 		
+		"echo. >> %systemroot%\\system32\\drivers\\etc\\hosts",
+		"echo ${var.puppet}	puppet.ec2.internal >> %systemroot%\\system32\\drivers\\etc\\hosts",
+		
 		"sc config puppet start=auto",
 		"net start puppet",
 		
@@ -231,7 +244,6 @@ resource "aws_instance" "db1" {
   }
 }
 
-/*
 resource "aws_instance" "db2" {
   provider                    = "aws.customer_account"
   ami                         = "${data.aws_ami.db_gp.id}"  
@@ -244,6 +256,44 @@ resource "aws_instance" "db2" {
   associate_public_ip_address = "false"
   #depends_on = ["aws_ami_launch_permission.share_db2_ami"]
   depends_on                  = ["aws_instance.dc1"]
+
+   provisioner "remote-exec" {
+	connection {
+      type     = "winrm"
+      user     = "Administrator"
+      password = "${var.admin_password}"
+	  timeout  = "7m"
+	  use_ntlm = "true"
+	  insecure = "true"
+    }
+    inline = [
+		"echo certname=${lower(var.db2_name)}.${lower(var.vpc_owner)}${lower(var.internal_dns)} >> %PROGRAMDATA%\\PuppetLabs\\puppet\\etc\\puppet.conf",
+		"echo environment=${lower(var.puppet-env)} >> %PROGRAMDATA%\\PuppetLabs\\puppet\\etc\\puppet.conf",
+		"echo runinterval=${var.puppet-interval} >> %PROGRAMDATA%\\PuppetLabs\\puppet\\etc\\puppet.conf",
+		"echo log_level=${lower(var.puppet-log-level)} >> %PROGRAMDATA%\\PuppetLabs\\puppet\\etc\\puppet.conf",
+		
+		"echo --- > %PROGRAMDATA%\\PuppetLabs\\facter\\facts.d\\bayada.yaml",
+		"echo   bayapp: ${lower(var.bayapp)} >> %PROGRAMDATA%\\PuppetLabs\\facter\\facts.d\\bayada.yaml",
+
+		"echo $adapter = Get-NetAdapter -Name 'Ethernet*' > C:\\scripts\\dns-config.ps1",
+		"echo $nic = Get-WmiObject Win32_NetworkAdapterConfiguration -filter \"ipenabled = 'true'\" >> C:\\scripts\\dns-config.ps1",
+		"echo $nic.SetTcpipNetbios(1) >> C:\\scripts\\dns-config.ps1",
+		"echo $nic.SetWINSServer(\"${aws_instance.dc1.private_ip}\",\"${aws_instance.dc1.private_ip}\") >> C:\\scripts\\dns-config.ps1",
+		"echo Set-DNSClientServerAddress -InterfaceAlias $adapter.Name -ServerAddresses (\"${aws_instance.dc1.private_ip}\") >> C:\\scripts\\dns-config.ps1",
+		"echo Set-DnsClientGlobalSetting -SuffixSearchList @($null) >> C:\\scripts\\dns-config.ps1",
+		
+		"echo. >> %systemroot%\\system32\\drivers\\etc\\hosts",
+		"echo ${var.puppet}	puppet.ec2.internal >> %systemroot%\\system32\\drivers\\etc\\hosts",
+		
+		"sc config puppet start=auto",
+		"net start puppet",
+		
+		"powershell.exe Set-ExecutionPolicy RemoteSigned -force",
+		"powershell.exe -File C:\\scripts\\dns-config.ps1",
+		"powershell.exe -Command \"&{Rename-Computer -NewName ${var.db2_name} -Restart}\"",
+		
+    ]
+  }
   
   tags {
     Name                = "iDB2-${var.account_name}-${var.vpc_owner}"
@@ -304,6 +354,9 @@ resource "aws_instance" "rdp1" {
 		"echo $nic.SetWINSServer(\"${aws_instance.dc1.private_ip}\",\"${aws_instance.dc1.private_ip}\") >> C:\\scripts\\dns-config.ps1",
 		"echo Set-DNSClientServerAddress -InterfaceAlias $adapter.Name -ServerAddresses (\"${aws_instance.dc1.private_ip}\") >> C:\\scripts\\dns-config.ps1",
 		"echo Set-DnsClientGlobalSetting -SuffixSearchList @($null) >> C:\\scripts\\dns-config.ps1",
+		
+		"echo. >> %systemroot%\\system32\\drivers\\etc\\hosts",
+		"echo ${var.puppet}	puppet.ec2.internal >> %systemroot%\\system32\\drivers\\etc\\hosts",
 		
 		"sc config puppet start=auto",
 		"net start puppet",

@@ -12,6 +12,8 @@ variable "customer_name" {}
 
 variable "environment" {}
 
+variable "puppet" {}
+
 variable "puppet-interval" {
 	default = "60"
 }
