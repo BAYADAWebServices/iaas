@@ -171,11 +171,9 @@ resource "aws_instance" "web2" {
   }
 }
 
-/*
 resource "aws_instance" "db1" {
   provider                    = "aws.customer_account"
-  #ami                         = "${var.ami_db1}"
-  ami                         = "${data.aws_ami.db-default.id}" 
+  ami                         = "${data.aws_ami.db_default.id}" 
   instance_type               = "${var.db1_instance_size}"
   subnet_id                   = "${module.vpc.subnets_isolated[0]}"
   vpc_security_group_ids      = ["${aws_security_group.db1.id}"]
@@ -184,7 +182,8 @@ resource "aws_instance" "db1" {
   tenancy                     = "default"
   associate_public_ip_address = "false"
   # depends_on = ["aws_ami_launch_permission.share_db1_ami"]
-
+  depends_on                  = ["aws_instance.dc1"]
+  
   tags {
     Name                = "iDB1-${var.account_name}-${var.vpc_owner}"
 	"bws:Environment"   = "${var.environment}"
@@ -196,12 +195,46 @@ resource "aws_instance" "db1" {
 	"bws:InstanceScheduler" = "${var.instance_scheduler}"
 		
   }
+  
+   provisioner "remote-exec" {
+	connection {
+      type     = "winrm"
+      user     = "Administrator"
+      password = "${var.admin_password}"
+	  timeout  = "7m"
+	  use_ntlm = "true"
+	  insecure = "true"
+    }
+    inline = [
+		"echo certname=${lower(var.db1_name)}.${lower(var.vpc_owner)}${lower(var.internal_dns)} >> %PROGRAMDATA%\\PuppetLabs\\puppet\\etc\\puppet.conf",
+		"echo environment=${lower(var.puppet-env)} >> %PROGRAMDATA%\\PuppetLabs\\puppet\\etc\\puppet.conf",
+		"echo runinterval=${var.puppet-interval} >> %PROGRAMDATA%\\PuppetLabs\\puppet\\etc\\puppet.conf",
+		"echo log_level=${lower(var.puppet-log-level)} >> %PROGRAMDATA%\\PuppetLabs\\puppet\\etc\\puppet.conf",
+		
+		"echo --- > %PROGRAMDATA%\\PuppetLabs\\facter\\facts.d\\bayada.yaml",
+		"echo   bayapp: ${lower(var.bayapp)} >> %PROGRAMDATA%\\PuppetLabs\\facter\\facts.d\\bayada.yaml",
+
+		"echo $adapter = Get-NetAdapter -Name 'Ethernet*' > C:\\scripts\\dns-config.ps1",
+		"echo $nic = Get-WmiObject Win32_NetworkAdapterConfiguration -filter \"ipenabled = 'true'\" >> C:\\scripts\\dns-config.ps1",
+		"echo $nic.SetTcpipNetbios(1) >> C:\\scripts\\dns-config.ps1",
+		"echo $nic.SetWINSServer(\"${aws_instance.dc1.private_ip}\",\"${aws_instance.dc1.private_ip}\") >> C:\\scripts\\dns-config.ps1",
+		"echo Set-DNSClientServerAddress -InterfaceAlias $adapter.Name -ServerAddresses (\"${aws_instance.dc1.private_ip}\") >> C:\\scripts\\dns-config.ps1",
+		"echo Set-DnsClientGlobalSetting -SuffixSearchList @($null) >> C:\\scripts\\dns-config.ps1",
+		
+		"sc config puppet start=auto",
+		"net start puppet",
+		
+		"powershell.exe Set-ExecutionPolicy RemoteSigned -force",
+		"powershell.exe -File C:\\scripts\\dns-config.ps1",
+		"powershell.exe -Command \"&{Rename-Computer -NewName ${var.db1_name} -Restart}\"",
+		
+    ]
 }
 
+/*
 resource "aws_instance" "db2" {
   provider                    = "aws.customer_account"
-  #ami                         = "${var.ami_db2}"
-  ami                         = "${data.aws_ami.db-gp.id}"  
+  ami                         = "${data.aws_ami.db_gp.id}"  
   instance_type               = "${var.db2_instance_size}"
   subnet_id                   = "${module.vpc.subnets_isolated[0]}"
   vpc_security_group_ids      = ["${aws_security_group.db2.id}"]
@@ -209,8 +242,9 @@ resource "aws_instance" "db2" {
   key_name                    = "${var.key_name}"
   tenancy                     = "default"
   associate_public_ip_address = "false"
- #  depends_on = ["aws_ami_launch_permission.share_db2_ami"]
-
+  #depends_on = ["aws_ami_launch_permission.share_db2_ami"]
+  depends_on                  = ["aws_instance.dc1"]
+  
   tags {
     Name                = "iDB2-${var.account_name}-${var.vpc_owner}"
 	"bws:Environment"   = "${var.environment}"
@@ -245,5 +279,39 @@ resource "aws_instance" "rdp1" {
 	"bws:InstanceScheduler" = "${var.instance_scheduler}"
 	
   }
+  
+   provisioner "remote-exec" {
+	connection {
+      type     = "winrm"
+      user     = "Administrator"
+      password = "${var.admin_password}"
+	  timeout  = "7m"
+	  use_ntlm = "true"
+	  insecure = "true"
+    }
+    inline = [
+		"echo certname=${lower(var.rdp1_name)}.${lower(var.vpc_owner)}${lower(var.internal_dns)} >> %PROGRAMDATA%\\PuppetLabs\\puppet\\etc\\puppet.conf",
+		"echo environment=${lower(var.puppet-env)} >> %PROGRAMDATA%\\PuppetLabs\\puppet\\etc\\puppet.conf",
+		"echo runinterval=${var.puppet-interval} >> %PROGRAMDATA%\\PuppetLabs\\puppet\\etc\\puppet.conf",
+		"echo log_level=${lower(var.puppet-log-level)} >> %PROGRAMDATA%\\PuppetLabs\\puppet\\etc\\puppet.conf",
+		
+		"echo --- > %PROGRAMDATA%\\PuppetLabs\\facter\\facts.d\\bayada.yaml",
+		"echo   bayapp: ${lower(var.bayapp)} >> %PROGRAMDATA%\\PuppetLabs\\facter\\facts.d\\bayada.yaml",
+
+		"echo $adapter = Get-NetAdapter -Name 'Ethernet*' > C:\\scripts\\dns-config.ps1",
+		"echo $nic = Get-WmiObject Win32_NetworkAdapterConfiguration -filter \"ipenabled = 'true'\" >> C:\\scripts\\dns-config.ps1",
+		"echo $nic.SetTcpipNetbios(1) >> C:\\scripts\\dns-config.ps1",
+		"echo $nic.SetWINSServer(\"${aws_instance.dc1.private_ip}\",\"${aws_instance.dc1.private_ip}\") >> C:\\scripts\\dns-config.ps1",
+		"echo Set-DNSClientServerAddress -InterfaceAlias $adapter.Name -ServerAddresses (\"${aws_instance.dc1.private_ip}\") >> C:\\scripts\\dns-config.ps1",
+		"echo Set-DnsClientGlobalSetting -SuffixSearchList @($null) >> C:\\scripts\\dns-config.ps1",
+		
+		"sc config puppet start=auto",
+		"net start puppet",
+		
+		"powershell.exe Set-ExecutionPolicy RemoteSigned -force",
+		"powershell.exe -File C:\\scripts\\dns-config.ps1",
+		"powershell.exe -Command \"&{Rename-Computer -NewName ${var.rdp1_name} -Restart}\"",
+		
+    ]
 }
 */

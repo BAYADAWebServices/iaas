@@ -37,6 +37,18 @@ variable "dc1_name" {
 	default = "BAYADDC01"
 }
 
+variable "db1_name" {
+	default = "PORTALSQ01"
+}
+
+variable "db2_name" {
+	default = "GP2010SQC01"
+}
+
+variable "rdp1_name" {
+	default = "RDP01"
+}
+
 variable "internal_dns" {
 	default = ".bws.cloud"
 }

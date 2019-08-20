@@ -1,11 +1,11 @@
 data "aws_ami" "rdp1" {
-  provider    = "aws.customer_account"
+  provider    = "aws.ses_shared_srvc_dev"
   most_recent = true
-  owners      = ["amazon"]  
+  owners      = ["764320393679"]   
 
   filter {
     name   = "name"
-    values = ["Windows_Server-2012-R2_RTM-English-64Bit-Base-*"]
+    values = ["bws-Windows2012R2-RDP-*"]
   }
 
 }
@@ -34,7 +34,7 @@ data "aws_ami" "dc" {
 
 }
 
-data "aws_ami" "db-default" {
+data "aws_ami" "db_default" {
   provider    = "aws.ses_shared_srvc_dev"
   most_recent = true
   owners      = ["764320393679"]  
@@ -46,7 +46,7 @@ data "aws_ami" "db-default" {
 
 }
 
-data "aws_ami" "db-gp" {
+data "aws_ami" "db_gp" {
   provider    = "aws.ses_shared_srvc_dev"
   most_recent = true
   owners      = ["764320393679"]  
