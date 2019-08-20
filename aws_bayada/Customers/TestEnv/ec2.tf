@@ -29,7 +29,7 @@ resource "aws_instance" "dc1" {
 		"echo log_level=${lower(var.puppet-log-level)} >> %PROGRAMDATA%\\PuppetLabs\\puppet\\etc\\puppet.conf",
 		
 		"echo. >> %systemroot%\\system32\\drivers\\etc\\hosts",
-		"echo ${var.puppet}	puppet.ec2.internal >> %systemroot%\\system32\\drivers\\etc\\hosts",
+		"echo ${var.puppet_ip}	puppet.ec2.internal >> %systemroot%\\system32\\drivers\\etc\\hosts",
 	
 		"sc config puppet start=auto",
 		"net start puppet",
@@ -91,7 +91,7 @@ resource "aws_instance" "web1" {
 		"echo Set-DnsClientGlobalSetting -SuffixSearchList @($null) >> C:\\scripts\\dns-config.ps1",
 		
 		"echo. >> %systemroot%\\system32\\drivers\\etc\\hosts",
-		"echo ${var.puppet}	puppet.ec2.internal >> %systemroot%\\system32\\drivers\\etc\\hosts",
+		"echo ${var.puppet_ip}	puppet.ec2.internal >> %systemroot%\\system32\\drivers\\etc\\hosts",
 		
 		"sc config puppet start=auto",
 		"net start puppet",
@@ -157,7 +157,7 @@ resource "aws_instance" "web2" {
 		"echo Set-DnsClientGlobalSetting -SuffixSearchList @($null) >> C:\\scripts\\dns-config.ps1",
 		
 		"echo. >> %systemroot%\\system32\\drivers\\etc\\hosts",
-		"echo ${var.puppet}	puppet.ec2.internal >> %systemroot%\\system32\\drivers\\etc\\hosts",
+		"echo ${var.puppet_ip}	puppet.ec2.internal >> %systemroot%\\system32\\drivers\\etc\\hosts",
 		
 		"sc config puppet start=auto",
 		"net start puppet",
@@ -220,7 +220,7 @@ resource "aws_instance" "db1" {
 		"echo Set-DnsClientGlobalSetting -SuffixSearchList @($null) >> C:\\scripts\\dns-config.ps1",
 		
 		"echo. >> %systemroot%\\system32\\drivers\\etc\\hosts",
-		"echo ${var.puppet}	puppet.ec2.internal >> %systemroot%\\system32\\drivers\\etc\\hosts",
+		"echo ${var.puppet_ip}	puppet.ec2.internal >> %systemroot%\\system32\\drivers\\etc\\hosts",
 		
 		"sc config puppet start=auto",
 		"net start puppet",
@@ -283,7 +283,7 @@ resource "aws_instance" "db2" {
 		"echo Set-DnsClientGlobalSetting -SuffixSearchList @($null) >> C:\\scripts\\dns-config.ps1",
 		
 		"echo. >> %systemroot%\\system32\\drivers\\etc\\hosts",
-		"echo ${var.puppet}	puppet.ec2.internal >> %systemroot%\\system32\\drivers\\etc\\hosts",
+		"echo ${var.puppet_ip}	puppet.ec2.internal >> %systemroot%\\system32\\drivers\\etc\\hosts",
 		
 		"sc config puppet start=auto",
 		"net start puppet",
@@ -356,7 +356,7 @@ resource "aws_instance" "rdp1" {
 		"echo Set-DnsClientGlobalSetting -SuffixSearchList @($null) >> C:\\scripts\\dns-config.ps1",
 		
 		"echo. >> %systemroot%\\system32\\drivers\\etc\\hosts",
-		"echo ${var.puppet}	puppet.ec2.internal >> %systemroot%\\system32\\drivers\\etc\\hosts",
+		"echo ${var.puppet_ip}	puppet.ec2.internal >> %systemroot%\\system32\\drivers\\etc\\hosts",
 		
 		"sc config puppet start=auto",
 		"net start puppet",

@@ -12,7 +12,7 @@ variable "customer_name" {}
 
 variable "environment" {}
 
-variable "puppet" {}
+variable "puppet_ip" {}
 
 variable "puppet-interval" {
 	default = "60"
@@ -27,6 +27,14 @@ variable "puppet-env" {
 }
 
 variable "bayapp" {}
+
+variable "bucket_name" {
+	default ="bws-devops-terraform-state-bucket"
+}
+
+variable "dynamo_table_name" {
+	default ="bws-devops-terraform-lock-table"
+}
 
 variable "web1_name" {
 	default = "WEBAPP01"
@@ -121,26 +129,6 @@ variable "shared_tgw_rt_id" {
 
 variable "shared_tgw_attach_id" {
    default = "tgw-attach-0491837b2202e63bc"
-}
-
-variable "ami_web1" {
-  default = "ami-082054f7d9443561f"
-}
-
-variable "ami_web2" {
-  default = "ami-082054f7d9443561f"
-}
-
-variable "ami_db1" {
-  default = "ami-0e329312d0e3c5597"
-}
-
-variable "ami_db2" {
-  default = "ami-01a62bf224e0696c6"
-}
-
-variable "ami_dc1" {
-  default = "ami-02e71d2b3a4a2a409"
 }
 
 variable "web1_instance_size" {
