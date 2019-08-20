@@ -37,9 +37,12 @@ BAYAPP=${11}
 PUPPET=${12}
 
 rm -rf ./.terraform ./terraform.tfstate.d ./terraform.tfstate*
-terraform init --backend-config=backend-us-east-1-testenv.tfvars
+
+terraform init --backend-config=backend-testenv.tfvars
+
 terraform workspace new $TERRAFORMENV
 terraform workspace select $TERRAFORMENV
+
 terraform $FUNCTION -var "puppet=$PUPPET" -var "bayapp=$BAYAPP" -var "region=$REGION" -var "vpcsubnet=$VPCSUBNET" -var "terraformenv=$TERRAFORMENV" -var "customer_account_profile=$ACCOUNTROLE" -var "account_name=$ACCOUNTNAME" -var "account_id=$ACCOUNTID" -var "vpc_owner=$VPCOWNER" -var "customer_name=$CUSTOMER" -var "environment=$ENVIRONMENT"
 
 echo "cleaning up temp files that terraform created"

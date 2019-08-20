@@ -10,12 +10,16 @@ variable "account_name" {}
 
 variable "account_email" {}
 
+variable "account_admin_role" {}
+
 variable "ou_parent_id" {
   default = "ou-iult-r99p83wv"
 }
 
-variable "account_admin_role" { 
-  	default = "BWS-SQAOrgTest-FullAdmin"
+variable "bucket_name" {
+	default ="bws-devops-terraform-state-bucket"
 }
 
-
+variable "dynamo_table_name" {
+	default ="bws-devops-terraform-lock-table"
+}

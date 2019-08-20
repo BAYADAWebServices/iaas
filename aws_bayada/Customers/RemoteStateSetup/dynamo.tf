@@ -1,5 +1,5 @@
 resource "aws_dynamodb_table" "dynamodb-terraform-lock" {
-  name           = "terraform-lock-${var.region}"
+  name           = "${var.dynamo_table_name}"
   hash_key       = "LockID"
   read_capacity  = 5
   write_capacity = 5

@@ -4,7 +4,7 @@
 
 
 
-if [ "$#" -lt 3 ]
+if [ "$#" -lt 2 ]
 then
   echo "Usage: ./deploy {terraform_function} {profile} {account} from directory of tf code"
   exit 1
@@ -12,11 +12,10 @@ fi
 
 FUNCTION=$1
 PROFILE=$2
-ACCOUNT=$3
 
 rm -rf ./.terraform ./terraform.tfstate.d ./terraform.tfstate*
 terraform init
-terraform $FUNCTION -var "profile=$PROFILE" -var "account=$ACCOUNT"
+terraform $FUNCTION -var "profile=$PROFILE"
 
 echo "cleaning up temp files that terraform created"
 
