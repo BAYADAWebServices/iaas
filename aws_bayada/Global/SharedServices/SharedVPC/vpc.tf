@@ -26,6 +26,10 @@ resource "aws_vpc_endpoint" "shared_s3_access" {
   vpc_id          = "${module.vpc.id}"
   service_name    = "com.amazonaws.us-east-1.s3"
   route_table_ids =["${module.vpc.routes_private}"]
+  
+  tags = {
+    Name = "S3endpointOPSShareServicesDev"
+  }
 }
 
 resource "aws_main_route_table_association" "Shared_priv_rt" {

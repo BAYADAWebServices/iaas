@@ -184,18 +184,6 @@ resource "aws_instance" "db1" {
   # depends_on = ["aws_ami_launch_permission.share_db1_ami"]
   depends_on                  = ["aws_instance.dc1"]
   
-  tags {
-    Name                = "iDB1-${var.account_name}-${var.vpc_owner}"
-	"bws:Environment"   = "${var.environment}"
-    "bws:Software"      = "SQLServer2012"
-	"bws:SQLInstance"   = "GP"
-	"bws:Service"       = "${var.ses_service}"
-	"bws:Customer"      = "${var.customer_name}"
-	"bws:Description"   = "SQL Server for hosting custom application database"
-	"bws:InstanceScheduler" = "${var.instance_scheduler}"
-		
-  }
-  
    provisioner "remote-exec" {
 	connection {
       type     = "winrm"
@@ -229,6 +217,18 @@ resource "aws_instance" "db1" {
 		"powershell.exe -Command \"&{Rename-Computer -NewName ${var.db1_name} -Restart}\"",
 		
     ]
+  }
+  tags {
+    Name                = "iDB1-${var.account_name}-${var.vpc_owner}"
+	"bws:Environment"   = "${var.environment}"
+    "bws:Software"      = "SQLServer2012"
+	"bws:SQLInstance"   = "GP"
+	"bws:Service"       = "${var.ses_service}"
+	"bws:Customer"      = "${var.customer_name}"
+	"bws:Description"   = "SQL Server for hosting custom application database"
+	"bws:InstanceScheduler" = "${var.instance_scheduler}"
+		
+  }
 }
 
 /*

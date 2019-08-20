@@ -10,7 +10,7 @@ resource "aws_ami_launch_permission" "share_db1_ami" {
   provider   = "aws.ses_shared_srvc_dev"
   #image_id   = "${var.ami_db1}"
   account_id = "${var.account_id}"
-  image_id   = "${data.aws_ami.db-default.id}"
+  image_id   = "${data.aws_ami.db_default.id}"
   
 }
 
@@ -18,7 +18,7 @@ resource "aws_ami_launch_permission" "share_db2_ami" {
   provider   = "aws.ses_shared_srvc_dev"
   account_id = "${var.account_id}"
   #image_id   = "${var.ami_db2}"
-  image_id   = "${data.aws_ami.db-gp.id}"
+  image_id   = "${data.aws_ami.db_gp.id}"
   
 }
 

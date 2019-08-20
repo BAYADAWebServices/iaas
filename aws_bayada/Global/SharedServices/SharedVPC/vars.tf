@@ -12,7 +12,6 @@ variable "transit_gateway_id" {
 
 variable "shared_transit_route_table" { 
   default = "tgw-rtb-072cdfdcdf6f7d76b"
-
 }
 
 variable "tgw_route_summary" { 
@@ -24,13 +23,14 @@ variable "tgw_vpn_route" {
 }
 
 variable "tag_vpc_name" { 
-  default = "Shared Services"
+  default = "vpcOpsSharedServicesDev"
 }
 
 variable "account_name" {
   default = "bws-ops-shared-dev"
 }
 
-
-
+variable "jenkins_key_pair" {
+	default = "jenkins"
+}
 
