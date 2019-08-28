@@ -54,8 +54,8 @@ resource "aws_ec2_transit_gateway_vpc_attachment" "tgw_attach_cust_vpc" {
   subnet_ids         							   = ["${module.vpc.subnets_isolated}"]
   transit_gateway_id 							   = "${var.transit_gateway_id}"
   vpc_id             							   = "${module.vpc.id}"
-  transit_gateway_default_route_table_association  = "false"
-  transit_gateway_default_route_table_propagation  = "false"
+  transit_gateway_default_route_table_association  = "true"
+  transit_gateway_default_route_table_propagation  = "true"
   
   tags                                             = {
     Name              = "tgwAttachment-${var.account_name}-${var.vpc_owner}"

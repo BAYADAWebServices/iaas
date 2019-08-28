@@ -49,7 +49,6 @@ resource "aws_instance" "dc1" {
   }
 }
 
-/*
 resource "aws_instance" "web1" {
   provider                    = "aws.customer_account"
   #ami                        = "${var.ami_web1}"
@@ -136,7 +135,7 @@ resource "aws_instance" "web2" {
       type     = "winrm"
       user     = "Administrator"
       password = "${var.admin_password}"
-	  timeout  = "7m"
+	  timeout  = "10m"
 	  use_ntlm = "true"
 	  insecure = "true"
     }
@@ -199,7 +198,7 @@ resource "aws_instance" "db1" {
       type     = "winrm"
       user     = "Administrator"
       password = "${var.admin_password}"
-	  timeout  = "7m"
+	  timeout  = "10m"
 	  use_ntlm = "true"
 	  insecure = "true"
     }
@@ -222,11 +221,24 @@ resource "aws_instance" "db1" {
 		"echo. >> %systemroot%\\system32\\drivers\\etc\\hosts",
 		"echo ${var.puppet_ip}	puppet.ec2.internal >> %systemroot%\\system32\\drivers\\etc\\hosts",
 		
+		"echo Start-Transcript -Path \"C:\\scripts\\rename-sql-instance.txt\" > C:\\scripts\\rename-sql-instance.ps1",
+		"echo Import-Module SQLPS >> C:\\scripts\\rename-sql-instance.ps1",
+		"echo $computer = Get-WmiObject -Class Win32_ComputerSystem >> C:\\scripts\\rename-sql-instance.ps1",
+		"echo $computername = $computer.name >> C:\\scripts\\rename-sql-instance.ps1",
+		"echo $new_computername = \"${var.db1_name}\" >> C:\\scripts\\rename-sql-instance.ps1",
+		"echo $q_drop = \"sp_dropserver '$computername'\" >> C:\\scripts\\rename-sql-instance.ps1",
+		"echo $q_add  = \"sp_addserver '$new_computername', local\" >> C:\\scripts\\rename-sql-instance.ps1",
+		"echo ### Change @@servername variable in SQL Server... >> C:\\scripts\\rename-sql-instance.ps1",
+		"echo Invoke-Sqlcmd -ConnectionTimeout 0 -Querytimeout 0 -Query $q_drop -ServerInstance $computername >> C:\\scripts\\rename-sql-instance.ps1",
+		"echo Invoke-Sqlcmd -ConnectionTimeout 0 -Querytimeout 0 -Query $q_add -ServerInstance $computername >> C:\\scripts\\rename-sql-instance.ps1",
+		"echo Stop-Transcript >> C:\\scripts\\rename-sql-instance.ps1",
+
 		"sc config puppet start=auto",
 		"net start puppet",
 		
 		"powershell.exe Set-ExecutionPolicy RemoteSigned -force",
 		"powershell.exe -File C:\\scripts\\dns-config.ps1",
+		"powershell.exe -File C:\\scripts\\rename-sql-instance.ps1",
 		"powershell.exe -Command \"&{Rename-Computer -NewName ${var.db1_name} -Restart}\"",
 		
     ]
@@ -284,12 +296,25 @@ resource "aws_instance" "db2" {
 		
 		"echo. >> %systemroot%\\system32\\drivers\\etc\\hosts",
 		"echo ${var.puppet_ip}	puppet.ec2.internal >> %systemroot%\\system32\\drivers\\etc\\hosts",
+
+		"echo Start-Transcript -Path \"C:\\scripts\\rename-sql-instance.txt\" > C:\\scripts\\rename-sql-instance.ps1",
+		"echo Import-Module SQLPS >> C:\\scripts\\rename-sql-instance.ps1",
+		"echo $computer = Get-WmiObject -Class Win32_ComputerSystem >> C:\\scripts\\rename-sql-instance.ps1",
+		"echo $computername = $computer.name >> C:\\scripts\\rename-sql-instance.ps1",
+		"echo $new_computername = \"${var.db2_name}\" >> C:\\scripts\\rename-sql-instance.ps1",
+		"echo $q_drop = \"sp_dropserver '$computername'\" >> C:\\scripts\\rename-sql-instance.ps1",
+		"echo $q_add  = \"sp_addserver '$new_computername', local\" >> C:\\scripts\\rename-sql-instance.ps1",
+		"echo ### Change @@servername variable in SQL Server... >> C:\\scripts\\rename-sql-instance.ps1",
+		"echo Invoke-Sqlcmd -ConnectionTimeout 0 -Querytimeout 0 -Query $q_drop -ServerInstance $computername >> C:\\scripts\\rename-sql-instance.ps1",
+		"echo Invoke-Sqlcmd -ConnectionTimeout 0 -Querytimeout 0 -Query $q_add -ServerInstance $computername >> C:\\scripts\\rename-sql-instance.ps1",
+		"echo Stop-Transcript >> C:\\scripts\\rename-sql-instance.ps1",
 		
 		"sc config puppet start=auto",
 		"net start puppet",
 		
 		"powershell.exe Set-ExecutionPolicy RemoteSigned -force",
 		"powershell.exe -File C:\\scripts\\dns-config.ps1",
+		"powershell.exe -File C:\\scripts\\rename-sql-instance.ps1",
 		"powershell.exe -Command \"&{Rename-Computer -NewName ${var.db2_name} -Restart}\"",
 		
     ]
@@ -308,6 +333,7 @@ resource "aws_instance" "db2" {
   }
 }
 
+/*
 resource "aws_instance" "rdp1" {
   provider                    = "aws.customer_account"
   ami                         = "${data.aws_ami.rdp1.id}"

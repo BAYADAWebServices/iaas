@@ -128,7 +128,7 @@ variable "shared_tgw_rt_id" {
 }
 
 variable "shared_tgw_attach_id" {
-   default = "tgw-attach-0491837b2202e63bc"
+   default = "tgw-attach-0ea1331ea99d33ec7"
 }
 
 variable "web1_instance_size" {

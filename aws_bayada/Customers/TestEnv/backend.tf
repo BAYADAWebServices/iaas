@@ -4,5 +4,3 @@ terraform {
     key     = "testenv/state.tf"
   }
 }
-
-

@@ -13,10 +13,10 @@ Example: This assumes the environment will be for Brian and the customer is sqa 
 *You will need to know the subnet, role name, account id
 
 * Build a plan that will get executed
-./deploy.sh plan us-east-1 10.20.30.0/24 SQA-bmarino BWS-SQAOrgTest-FullAdmin SqaOrgTest 123403453763 bmarino SQA TEST 10.20.0.166
+./deploy.sh plan us-east-1 10.20.30.0/24 SQA-bmarino BWS-SQAOrgTest-FullAdmin SqaOrgTest 123403453763 bmarino SQA TEST org 10.20.0.89
 
 * Create Objects
-./deploy.sh apply us-east-1 10.20.30.0/24 SQA-bmarino BWS-SQAOrgTest-FullAdmin SqaOrgTest 123403453763 bmarino SQA TEST 10.20.0.166
+./deploy.sh apply us-east-1 10.20.30.0/24 SQA-bmarino BWS-SQAOrgTest-FullAdmin SqaOrgTest 123403453763 bmarino SQA TEST org 10.20.0.89
 
 * Delete Objects
-./deploy.sh destroy us-east-1 10.20.30.0/24 SQA-bmarino BWS-SQAOrgTest-FullAdmin SqaOrgTest 123403453763 bmarino SQA TEST 10.20.0.166
+./deploy.sh destroy us-east-1 10.20.30.0/24 SQA-bmarino BWS-SQAOrgTest-FullAdmin SqaOrgTest 123403453763 bmarino SQA TEST org 10.20.0.89
