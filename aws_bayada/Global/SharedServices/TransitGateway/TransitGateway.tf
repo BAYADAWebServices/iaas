@@ -7,7 +7,7 @@ resource "aws_ec2_transit_gateway" "Bayada_Transit" {
 	default_route_table_propagation = "${var.default_route_table_propagation}"
 	auto_accept_shared_attachments  = "${var.auto_accept_shared_attachments}"
 	  tags                          = {
-    Name                          = "tgw-testenv"
+    Name                          = "tgw${var.account_name}"
   }
 }
 
@@ -29,7 +29,7 @@ resource "aws_ram_resource_association" "Bayada_gw_associataion" {
 resource "aws_ec2_transit_gateway_route_table" "tgw-shared-rt" {
   transit_gateway_id = "${aws_ec2_transit_gateway.Bayada_Transit.id}"
   tags               = {
-    Name             = "tgw-shared-rt"
+    Name             = "tgwRouteTable${var.account_name}"
   }
   depends_on = ["aws_ec2_transit_gateway.Bayada_Transit"]
 }

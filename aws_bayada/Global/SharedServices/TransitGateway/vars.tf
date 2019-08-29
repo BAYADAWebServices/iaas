@@ -43,7 +43,7 @@ variable "organization_arn" {
 }
 
 variable "account_name" {
-  default = "shared-services"
+  default = "OPSSharedServicesDev"
 }
 
 

@@ -23,7 +23,7 @@ variable "tgw_vpn_route" {
 }
 
 variable "tag_vpc_name" { 
-  default = "vpcOpsSharedServicesDev"
+  default = "OpsSharedServicesDev"
 }
 
 variable "account_name" {
