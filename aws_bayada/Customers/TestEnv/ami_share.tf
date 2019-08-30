@@ -30,3 +30,10 @@ resource "aws_ami_launch_permission" "share_dc1_ami" {
   
 }
 
+resource "aws_ami_launch_permission" "share_rdp1_ami" {
+  provider   = "aws.ses_shared_srvc_dev"
+  account_id = "${var.account_id}"
+  #image_id   = "${var.ami_dc1}"
+  image_id   = "${data.aws_ami.rdp1.id}"
+  
+}

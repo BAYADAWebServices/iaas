@@ -1,3 +1,57 @@
+resource "aws_instance" "rdp1" {
+  provider                    = "aws.customer_account"
+  ami                         = "${data.aws_ami.rdp1.id}"
+  instance_type               = "${var.rdp1_instance_size}"
+  subnet_id                   = "${module.vpc.subnets_isolated[0]}"
+  vpc_security_group_ids      = ["${aws_security_group.rdp1.id}"]
+  iam_instance_profile        = "${aws_iam_instance_profile.S3_profile.name}"  
+  key_name                    = "${var.key_name}"
+  tenancy                     = "default"
+  associate_public_ip_address = "false"
+  # depends_on = ["aws_ami_launch_permission.share_rdp1_ami"]
+
+  tags {
+    Name                = "iRDP1-${var.account_name}-${var.vpc_owner}"
+	"bws:Customer"      = "${var.customer_name}"
+	"bws:Environment"   = "${var.environment}"
+	"bws:Service"       = "${var.ses_service}"
+	"bws:Description"   = "Desktop for testers to gain access to their environment to test their application of choice."
+	"bws:InstanceScheduler" = "${var.instance_scheduler}"
+	
+  }
+  
+   provisioner "remote-exec" {
+	connection {
+      type     = "winrm"
+      user     = "Administrator"
+      password = "${var.admin_password}"
+	  timeout  = "7m"
+	  use_ntlm = "true"
+	  insecure = "true"
+    }
+    inline = [
+		"echo certname=${lower(var.rdp1_name)}.${lower(var.vpc_owner)}${lower(var.internal_dns)} >> %PROGRAMDATA%\\PuppetLabs\\puppet\\etc\\puppet.conf",
+		"echo environment=${lower(var.puppet-env)} >> %PROGRAMDATA%\\PuppetLabs\\puppet\\etc\\puppet.conf",
+		"echo runinterval=${var.puppet-interval} >> %PROGRAMDATA%\\PuppetLabs\\puppet\\etc\\puppet.conf",
+		"echo log_level=${lower(var.puppet-log-level)} >> %PROGRAMDATA%\\PuppetLabs\\puppet\\etc\\puppet.conf",
+		
+		"echo --- > %PROGRAMDATA%\\PuppetLabs\\facter\\facts.d\\bayada.yaml",
+		"echo   bayapp: ${lower(var.bayapp)} >> %PROGRAMDATA%\\PuppetLabs\\facter\\facts.d\\bayada.yaml",
+
+		"echo. >> %systemroot%\\system32\\drivers\\etc\\hosts",
+		"echo ${var.puppet_ip}	puppet.ec2.internal >> %systemroot%\\system32\\drivers\\etc\\hosts",
+		
+		"sc config puppet start=auto",
+		"net start puppet",
+		
+		"powershell.exe Set-ExecutionPolicy RemoteSigned -force",
+		"powershell.exe -Command \"&{Rename-Computer -NewName ${var.rdp1_name} -Restart}\"",
+		
+		]
+	}
+}
+
+/*
 resource "aws_instance" "dc1" {
   provider                    = "aws.customer_account"
   #ami                        = "${var.ami_dc1}"
@@ -333,7 +387,6 @@ resource "aws_instance" "db2" {
   }
 }
 
-/*
 resource "aws_instance" "rdp1" {
   provider                    = "aws.customer_account"
   ami                         = "${data.aws_ami.rdp1.id}"
