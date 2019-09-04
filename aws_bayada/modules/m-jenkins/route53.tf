@@ -1,4 +1,4 @@
-data "aws_route53_zone" "main" {
+/*data "aws_route53_zone" "main" {
   name = "${var.r53_zone_name}"
 }
 
@@ -13,3 +13,4 @@ resource "aws_route53_record" "elb" {
     evaluate_target_health = "false"
   }
 }
+*/

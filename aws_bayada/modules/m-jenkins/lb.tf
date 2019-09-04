@@ -1,5 +1,5 @@
 data "aws_acm_certificate" "main" {
-  domain = "${var.r53_zone_name}"
+  domain = "*.${var.r53_zone_name}"
   most_recent = true
 }
 

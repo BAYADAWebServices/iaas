@@ -18,25 +18,26 @@
 
 if [ "$#" -lt 7 ]
 then
-  echo "Usage: ./deploy.sh {terraform_function} {region} {vpcsubnet} {env} {accountrole} {accountname} {accountid} {vpcowner} from directory of tf code"
+  echo "Usage: ./deploy.sh {terraform_function} {region} {vpcsubnet} {userenv} {accesskey} {secret_key} {customer_role} {shared_role} {accountname}  from directory of tf code"
   exit 1
 fi
 
 FUNCTION=$1
 REGION=$2
 VPCSUBNET=$3
-ENVIRONMENT=$4
-ACCOUNTROLE=$5
-ACCOUNTNAME=$6
-ACCOUNTID=$7
-VPCOWNER=$8
+USERENV=$4
+ACCESSKEY=$5
+SECRETKEY=$6
+CUSTOMERROLE=$7
+SHAREDROLE=$8
+ACCOUNTNAME=$0
 
 
 rm -rf ./.terraform ./terraform.tfstate.d ./terraform.tfstate*
 terraform init --backend-config=backend-us-east-1-testenv.tfvars
-terraform workspace new $ENVIRONMENT
-terraform workspace select $ENVIRONMENT
-terraform $FUNCTION -var "region=$REGION" -var "vpcsubnet=$VPCSUBNET" -var "environment=$ENVIRONMENT" -var "customer_account_profile=$ACCOUNTROLE" -var "account_name=$ACCOUNTNAME" -var "account_id=$ACCOUNTID" -var "vpc_owner=$VPCOWNER"
+terraform workspace new $USERENV
+terraform workspace select $USERENV
+terraform $FUNCTION -var "region=$REGION" -var "vpc_subnet=$VPCSUBNET" -var "user_env=$USERENV" -var "access_key=$ACCESSKEY" -var "secret_key=$SECRETKEY" -var "customer_role=$CUSTOMERROLE" -var "shared_role=$SHAREDROLE" -var "account_name=$ACCOUNTNAME" 
 
 echo "cleaning up temp files that terraform created"
 

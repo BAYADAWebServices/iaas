@@ -14,7 +14,7 @@ resource "random_id" "web" {
 }
 
 data "external" "plugins" {
-  program = ["${path.module}/templates/cat_plugins.sh"]
+  program = ["bash", "${path.module}/templates/cat_plugins.sh"]
 }
 
 data "template_file" "user_data" {

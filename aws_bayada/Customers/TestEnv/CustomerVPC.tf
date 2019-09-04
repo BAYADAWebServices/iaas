@@ -1,9 +1,9 @@
 module "vpc" {
  source        = "../../modules/m-vpc"
-providers = {
+ providers = {
   aws = "aws.customer_account"
 }
- cidr_block     = "${var.vpcsubnet}"
+ cidr_block     = "${var.vpc_subnet}"
  az_width	    = "1"
  nat_instances	= "0"
  newbits {
@@ -21,7 +21,7 @@ providers = {
  	private		= "2"
  	isolated	= "1"
  }
- tag_name           = "${var.account_name}-${var.vpc_owner}"
+ tag_name           = "${var.account_name}-${var.userenv}"
 
 }
 
@@ -54,7 +54,7 @@ resource "aws_ec2_transit_gateway_vpc_attachment" "tgw_attach_cust_vpc" {
   transit_gateway_default_route_table_association  = "false"
   transit_gateway_default_route_table_propagation  = "false"
   tags                                             = {
-    Name                                           = "${var.account_name}-${var.vpc_owner}"
+    Name                                           = "${var.account_name}-${var.userenv}"
   }
 }
 

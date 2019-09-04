@@ -11,7 +11,7 @@ resource "aws_instance" "web1" {
   # depends_on = ["aws_ami_launch_permission.share_web_ami"]
 
   tags {
-    Name              = "Web1-${var.vpc_owner}"
+    Name              = "Web1-${var.userenv}"
     "bws:Application"   = "OrganizationServices"
     "bws:Application"   = "SingleSignOn"
     "bws:Application"   = "FindAnOffice"
@@ -35,7 +35,7 @@ resource "aws_instance" "web2" {
   # depends_on = ["aws_ami_launch_permission.share_web_ami"]
 
   tags {
-    Name              = "Web2-${var.vpc_owner}"
+    Name              = "Web2-${var.userenv}"
     "bws:Application"   = "MasterData"
     "bws:Service"       = "CustomApplication"
     "bws:Software"      = "IIS"
@@ -57,7 +57,7 @@ resource "aws_instance" "db1" {
   # depends_on = ["aws_ami_launch_permission.share_db1_ami"]
 
   tags {
-    Name              = "DB1-${var.vpc_owner}"
+    Name              = "DB1-${var.userenv}"
     "bws:Application"   = "MasterData"
     "bws:Software"      = "SQLServer2012"
   }
@@ -76,7 +76,7 @@ resource "aws_instance" "db2" {
  #  depends_on = ["aws_ami_launch_permission.share_db2_ami"]
 
   tags {
-    Name              = "DB2-${var.vpc_owner}"
+    Name              = "DB2-${var.userenv}"
     "bws:Application"   = "OrganizationServices"
     "bws:Application"   = "SingleSignOn"
     "bws:Application"   = "FindAnOffice"
@@ -101,7 +101,7 @@ resource "aws_instance" "dc1" {
 
 
   tags {
-    Name                = "DomainController-${var.vpc_owner}"
+    Name                = "DomainController-${var.userenv}"
     "bws:Application"   = "ActiveDirectory"
     "bws:Service"       = "Hosting"
     "bws:owner"         = "Hosting"
@@ -121,7 +121,7 @@ resource "aws_instance" "rdp1" {
   # depends_on = ["aws_ami_launch_permission.share_rdp1_ami"]
 
   tags {
-    Name            = "RDP1-${var.vpc_owner}"
+    Name            = "RDP1-${var.userenv}"
   }
 }
 

@@ -2,7 +2,7 @@ resource "aws_ec2_transit_gateway_route_table" "tgw-customer-rt" {
   provider            = "aws.shared_services"
   transit_gateway_id  = "${var.transit_gateway_id}"
   tags                = {
-    Name              = "${var.account_name}-${var.vpc_owner}"
+    Name              = "${var.account_name}-${var.userenv}"
   }
 }
 

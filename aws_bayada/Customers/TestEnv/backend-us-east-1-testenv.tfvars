@@ -1,4 +1,6 @@
 bucket         	= "bws-ops-shared-dev-terraform-us-east-1"
 dynamodb_table 	= "terraform-lock-us-east-1"
 region         	= "us-east-1"
-profile			= "BWS-OPSSharedServiceDev-FullAdmin"
+access_key 		= "${var.access_key}"
+secret_key 		= "${var.secret_key}"
+role_arn		= "${var.shared_role}"

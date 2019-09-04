@@ -17,7 +17,7 @@ variable "key_name" {
 }
 
 variable "app_name" {
-  default = "Jenkins"
+  default = "jenkins"
 }
 
 variable "subdomain" {
@@ -26,8 +26,8 @@ variable "subdomain" {
 }
 
 variable "environment" {
-  default = "dev"
-  description = "(optional) Platform environment (e.g. dev/stg/prod; default is dev)"
+  default = "testenv"
+  description = "(optional) Platform environment (e.g. dev/stg/prod)"
 }
 
 variable "costcenter" {
@@ -99,7 +99,7 @@ variable "append_script" {
 }
 
 variable "lb_internal" {
-  default = "false"
+  default = "true"
 }
 
 variable "lb_instance_port_http" {

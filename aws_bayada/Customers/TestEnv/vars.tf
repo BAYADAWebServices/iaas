@@ -1,20 +1,18 @@
-variable "customer_account_profile" {}
-
-variable "shared_services_profile" {
-  default = "BWS-OPSSharedServiceDev-FullAdmin"
-}
-
 variable "account_name" {}
 
-variable "account_id" {}
+variable "key_name" {}
 
-variable "key_name" {
-  default = "sqatest"
-}
+variable "vpc_subnet" {}
 
-variable "vpcsubnet" {}
+variable "user_env" {}
 
-variable "vpc_owner" {}
+variable "access_key" {}
+
+variable "secret_key" {}
+
+variable "shared_role" {}
+
+variable "customer_role" {}
 
 variable "region" {
   default = "us-east-1"
@@ -44,7 +42,7 @@ variable "shared_tgw_rt_id" {
 }
 
 variable "shared_tgw_attach_id" {
-   default = "tgw-attach-0491837b2202e63bc"
+   default = "tgw-attach-0ea1331ea99d33ec7"
 }
 
 variable "ami_web1" {

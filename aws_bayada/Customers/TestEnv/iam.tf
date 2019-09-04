@@ -1,11 +1,11 @@
 resource "aws_iam_instance_profile" "S3_profile" {
-  name_prefix     = "S3_access_profile-${var.vpc_owner}"
+  name_prefix     = "S3_access_profile-${var.userenv}"
   provider        = "aws.customer_account"
   role            = "${aws_iam_role.S3_role.name}"
 }
 
 resource "aws_iam_role" "S3_role" {
-  name_prefix         = "S3_access_role-${var.vpc_owner}"
+  name_prefix         = "S3_access_role-${var.userenv}"
   provider            = "aws.customer_account"
   assume_role_policy  = <<EOF
 {
@@ -25,7 +25,7 @@ EOF
 }
 
 resource "aws_iam_role_policy" "S3_FullAccess_policy" {
-  name_prefix   = "S3_policy-${var.vpc_owner}"
+  name_prefix   = "S3_policy-${var.userenv}"
   provider      = "aws.customer_account"
   role          = "${aws_iam_role.S3_role.id}"
 
