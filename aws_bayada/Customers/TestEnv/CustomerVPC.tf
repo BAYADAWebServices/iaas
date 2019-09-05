@@ -21,7 +21,7 @@ module "vpc" {
  	private		= "2"
  	isolated	= "1"
  }
- tag_name           = "${var.account_name}-${var.userenv}"
+ tag_name           = "${var.account_name}-${var.user_env}"
 
 }
 
@@ -54,7 +54,7 @@ resource "aws_ec2_transit_gateway_vpc_attachment" "tgw_attach_cust_vpc" {
   transit_gateway_default_route_table_association  = "false"
   transit_gateway_default_route_table_propagation  = "false"
   tags                                             = {
-    Name                                           = "${var.account_name}-${var.userenv}"
+    Name                                           = "${var.account_name}-${var.user_env}"
   }
 }
 

@@ -1,6 +1,6 @@
 variable "account_name" {}
 
-variable "key_name" {}
+variable "key_pair" {}
 
 variable "vpc_subnet" {}
 
@@ -10,7 +10,9 @@ variable "access_key" {}
 
 variable "secret_key" {}
 
-variable "shared_role" {}
+variable "shared_role" {
+  default = "arn:aws:iam::538477515645:role/BWS-OPSSharedServiceDev-FullAdmin"
+}
 
 variable "customer_role" {}
 

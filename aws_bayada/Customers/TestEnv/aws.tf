@@ -5,7 +5,7 @@ provider "aws" {
   alias	  		= "customer_account"
 
   assume_role {
-  	role_arn	= ${var.customer_role}"
+  	role_arn	= "${var.customer_role}"
   }
 }
 
@@ -17,7 +17,7 @@ provider "aws" {
   alias	  		= "shared_services"
 
   assume_role {
-  	role_arn	= ${var.shared_role}"
+  	role_arn	= "${var.shared_role}"
   }
 }
 
