@@ -13,6 +13,6 @@ Example: This assumes the environment will be for Jeff and the account/customer 
 ./deploy.sh plan us-east-1 10.20.12.0/24 SQA-Jeff accesskey secrectkey CustomerRole  bws-sqa-org-test sqatest
 
 
-./deploy.sh plan us-east-1 10.20.42.0/24 SQA-Mike AKIA6RC45HHQXLT4HXSN RTeEqw22gs3SJtYUDi+88SPzOgOcANrnj/LgHZ/u arn:aws:iam::123403453763:role/BWS-SQAOrgTest-FullAdmin bws-sqa-org-test sqatest
 
-./deploy.sh plan us-east-1 10.20.55.0/24 chip AKIA6RC45HHQXLT4HXSN RTeEqw22gs3SJtYUDi+88SPzOgOcANrnj/LgHZ/u arn:aws:iam::123403453763:role/BWS-SQAOrgTest-FullAdmin  sqatest sqatest
+
+
