@@ -42,4 +42,3 @@ terraform $FUNCTION -auto-approve -var "region=$REGION" -var "vpc_subnet=$VPCSUB
 
 echo "cleaning up temp files that terraform created"
 
-#Sample:  ./deploy.sh plan us-east-1 10.20.12.0/24 SQA-Jeff accesskey secrectkey CustomerRole  bws-sqa-org-test sqatest
