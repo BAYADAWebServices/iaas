@@ -118,7 +118,6 @@ resource "aws_instance" "rdp1" {
   key_name                    = "${var.key_pair}"
   tenancy                     = "default"
   associate_public_ip_address = "false"
-  # depends_on = ["aws_ami_launch_permission.share_rdp1_ami"]
 
   tags {
     Name            = "RDP1-${var.user_env}"

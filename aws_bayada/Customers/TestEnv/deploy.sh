@@ -18,7 +18,7 @@
 
 if [ "$#" -lt 9 ]
 then
-  echo "Usage: ./deploy.sh {terraform_function} {region} {vpcsubnet} {user_env} {accesskey} {secretkey} {customerrole} {accountname} {keypair} from directory of tf code"
+  echo "Usage: ./deploy.sh {terraform_function} {region} {vpcsubnet} {user_env} {accesskey} {secretkey} {customerrole} {accountname} {accountid} {keypair} from directory of tf code"
   exit 1
 fi
 
@@ -30,14 +30,15 @@ ACCESSKEY=$5
 SECRETKEY=$6
 CUSTOMERROLE=$7
 ACCOUNTNAME=$8
-KEYPAIR=$9
+$ACCOUNTID=$9
+KEYPAIR=$10
 
 
 rm -rf ./.terraform ./terraform.tfstate.d ./terraform.tfstate*
 terraform init --backend-config=backend-us-east-1-testenv.tfvars
 terraform workspace new $user_env
 terraform workspace select $user_env
-terraform $FUNCTION -auto-approve -var "region=$REGION" -var "vpc_subnet=$VPCSUBNET" -var "user_env=$user_env" -var "access_key=$ACCESSKEY" -var "secret_key=$SECRETKEY" -var "customer_role=$CUSTOMERROLE" -var "account_name=$ACCOUNTNAME" -var "key_pair=$KEYPAIR"
+terraform $FUNCTION -auto-approve -var "region=$REGION" -var "vpc_subnet=$VPCSUBNET" -var "user_env=$user_env" -var "access_key=$ACCESSKEY" -var "secret_key=$SECRETKEY" -var "customer_role=$CUSTOMERROLE" -var "account_name=$ACCOUNTNAME" -var "account_id=$ACCOUNTID" -var "key_pair=$KEYPAIR"
 
 echo "cleaning up temp files that terraform created"
 

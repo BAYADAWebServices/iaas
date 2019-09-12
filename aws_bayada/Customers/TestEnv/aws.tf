@@ -9,7 +9,6 @@ provider "aws" {
   }
 }
 
-
 provider "aws" {
   access_key 	= "${var.access_key}"
   secret_key 	= "${var.secret_key}"
@@ -20,5 +19,17 @@ provider "aws" {
   	role_arn	= "${var.shared_role}"
   }
 }
+
+provider "aws" {
+  access_key  = "${var.access_key}"
+  secret_key  = "${var.secret_key}"
+  region      = "${var.region}"
+  alias       = "ses_shared"
+
+  assume_role {
+    role_arn  = "${var.ses_shared_role}"
+  }
+}
+
 
 

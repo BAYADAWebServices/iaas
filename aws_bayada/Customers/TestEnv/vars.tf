@@ -14,7 +14,13 @@ variable "shared_role" {
   default = "arn:aws:iam::538477515645:role/BWS-OPSSharedServiceDev-FullAdmin"
 }
 
+variable "ses_shared_role" {
+  default = "arn:aws:iam::764320393679:role/BWS-SESSharedServiceNonProd-FullAdmin"
+}
+
 variable "customer_role" {}
+
+variable "account_id" {}
 
 variable "region" {
   default = "us-east-1"
