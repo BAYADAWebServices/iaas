@@ -20,9 +20,7 @@ variable "ses_shared_role" {
 
 variable "customer_role" {}
 
-variable "account_id" {
-  default = "123403453763"
-}
+variable "account_id" {}
 
 variable "region" {
   default = "us-east-1"
