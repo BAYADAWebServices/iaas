@@ -5,7 +5,7 @@ resource "aws_instance" "web1" {
   subnet_id                   = "${module.vpc.subnets_isolated[0]}"
   vpc_security_group_ids      = ["${aws_security_group.web1.id}"]
   iam_instance_profile        = "${aws_iam_instance_profile.S3_profile.name}"
-  key_name                   = "${var.key_pair}"
+  key_name                    = "${var.key_pair}"
   tenancy                     = "default"
   associate_public_ip_address = "false"
   # depends_on = ["aws_ami_launch_permission.share_web_ami"]

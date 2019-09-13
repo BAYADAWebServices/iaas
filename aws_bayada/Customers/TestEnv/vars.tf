@@ -70,7 +70,7 @@ variable "ami_db2" {
 }
 
 variable "ami_dc1" {
-  default = "ami-02e71d2b3a4a2a409"
+  default = "ami-004ecaf901a994f35"
 }
 
 variable "web1_instance_size" {
