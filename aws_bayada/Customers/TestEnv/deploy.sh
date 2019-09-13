@@ -16,7 +16,7 @@
 # vpcowner: The test user who will utilize the vpc.
 
 
-if [ "$#" -lt 10 ]
+if [ "$#" -lt 9 ]
 then
   echo "Usage: ./deploy.sh {terraform_function} {region} {vpcsubnet} {userenv} {accesskey} {secretkey} {customerrole} {accountname} {accountid} from directory of tf code"
   exit 1
