@@ -1,7 +1,7 @@
 variable "account_name" {}
 
 variable "key_pair" {
-  default = "sqatest"
+  default = "testpair"
 }
 
 variable "vpc_subnet" {}
