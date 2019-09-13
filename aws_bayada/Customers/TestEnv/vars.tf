@@ -1,8 +1,6 @@
 variable "account_name" {}
 
-variable "key_pair" {
-  default = "testpair"
-}
+variable "key_pair" {}
 
 variable "vpc_subnet" {}
 
