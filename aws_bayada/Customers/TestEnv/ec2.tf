@@ -8,7 +8,7 @@ resource "aws_instance" "web1" {
   key_name                    = "${var.key_pair}"
   tenancy                     = "default"
   associate_public_ip_address = "false"
-  depends_on = ["aws_ami_launch_permission.share_web_ami"]
+  depends_on = ["aws_ami_launch_permission.share_web1_ami"]
 
   tags {
     Name              = "Web1-${var.user_env}"
@@ -32,7 +32,7 @@ resource "aws_instance" "web2" {
   key_name                    = "${var.key_pair}"
   tenancy                     = "default"
   associate_public_ip_address = "false"
-  depends_on = ["aws_ami_launch_permission.share_web_ami"]
+  depends_on = ["aws_ami_launch_permission.share_web2_ami"]
 
   tags {
     Name              = "Web2-${var.user_env}"
