@@ -5,6 +5,12 @@ This repo contains a [Terraform module](https://www.terraform.io/docs/modules/us
 [LICENSE](./LICENSE.md)
 ---
 
+## Architecture
+
+TODO...
+
+- Explain in, maybe a nice diagram, etc.
+- EFS, route 53, LB, ASG, EC2 with docker, SGs, IAM.
 
 ## Usage
 

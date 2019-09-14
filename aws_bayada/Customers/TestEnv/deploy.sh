@@ -16,28 +16,29 @@
 # vpcowner: The test user who will utilize the vpc.
 
 
-if [ "$#" -lt 7 ]
+if [ "$#" -lt 10 ]
 then
-  echo "Usage: ./deploy.sh {terraform_function} {region} {vpcsubnet} {env} {accountrole} {accountname} {accountid} {vpcowner} from directory of tf code"
+  echo "Usage: ./deploy.sh {terraform_function} {region} {keypair} {vpcsubnet} {userenv} {accesskey} {secretkey} {customerrole} {accountid} {accountname}  from directory of tf code"
   exit 1
 fi
 
 FUNCTION=$1
 REGION=$2
-VPCSUBNET=$3
-ENVIRONMENT=$4
-ACCOUNTROLE=$5
-ACCOUNTNAME=$6
-ACCOUNTID=$7
-VPCOWNER=$8
+KEYPAIR=$3
+VPCSUBNET=$4
+USERENV=$5
+ACCESSKEY=$6
+SECRETKEY=$7
+CUSTOMERROLE=$8
+ACCOUNTID=$9
+ACCOUNTNAME=$10
 
 
 rm -rf ./.terraform ./terraform.tfstate.d ./terraform.tfstate*
 terraform init --backend-config=backend-us-east-1-testenv.tfvars
-terraform workspace new $ENVIRONMENT
-terraform workspace select $ENVIRONMENT
-terraform $FUNCTION -var "region=$REGION" -var "vpcsubnet=$VPCSUBNET" -var "environment=$ENVIRONMENT" -var "customer_account_profile=$ACCOUNTROLE" -var "account_name=$ACCOUNTNAME" -var "account_id=$ACCOUNTID" -var "vpc_owner=$VPCOWNER"
+terraform workspace new $user_env
+terraform workspace select $user_env
+terraform $FUNCTION -auto-approve -var "region=$REGION" -var "key_pair=$KEYPAIR" -var "vpc_subnet=$VPCSUBNET" -var "user_env=$USERENV" -var "access_key=$ACCESSKEY" -var "secret_key=$SECRETKEY" -var "customer_role=$CUSTOMERROLE" -var "account_id=$ACCOUNTID" -var "account_name=$ACCOUNTNAME" 
 
 echo "cleaning up temp files that terraform created"
 
-#Sample:  ./deploy.sh plan us-east-1 10.20.12.0/24 SQA-Jeff BWS-SQAOrgTest-FullAdmin bws-sqa-org-test 123403453763 Jeff

@@ -5,13 +5,13 @@ resource "aws_instance" "web1" {
   subnet_id                   = "${module.vpc.subnets_isolated[0]}"
   vpc_security_group_ids      = ["${aws_security_group.web1.id}"]
   iam_instance_profile        = "${aws_iam_instance_profile.S3_profile.name}"
-  key_name                    = "${var.key_name}"
+  key_name                    = "${var.key_pair}"
   tenancy                     = "default"
   associate_public_ip_address = "false"
-  # depends_on = ["aws_ami_launch_permission.share_web_ami"]
+  depends_on = ["aws_ami_launch_permission.share_web1_ami"]
 
   tags {
-    Name              = "Web1-${var.vpc_owner}"
+    Name              = "Web1-${var.user_env}"
     "bws:Application"   = "OrganizationServices"
     "bws:Application"   = "SingleSignOn"
     "bws:Application"   = "FindAnOffice"
@@ -29,13 +29,13 @@ resource "aws_instance" "web2" {
   subnet_id                   = "${module.vpc.subnets_isolated[0]}"
   vpc_security_group_ids      = ["${aws_security_group.web2.id}"]
   iam_instance_profile        = "${aws_iam_instance_profile.S3_profile.name}"
-  key_name                    = "${var.key_name}"
+  key_name                    = "${var.key_pair}"
   tenancy                     = "default"
   associate_public_ip_address = "false"
-  # depends_on = ["aws_ami_launch_permission.share_web_ami"]
+  depends_on = ["aws_ami_launch_permission.share_web2_ami"]
 
   tags {
-    Name              = "Web2-${var.vpc_owner}"
+    Name              = "Web2-${var.user_env}"
     "bws:Application"   = "MasterData"
     "bws:Service"       = "CustomApplication"
     "bws:Software"      = "IIS"
@@ -51,13 +51,13 @@ resource "aws_instance" "db1" {
   subnet_id                   = "${module.vpc.subnets_isolated[0]}"
   vpc_security_group_ids      = ["${aws_security_group.db1.id}"]
   iam_instance_profile        = "${aws_iam_instance_profile.S3_profile.name}"  
-  key_name                    = "${var.key_name}"
+  key_name                    = "${var.key_pair}"
   tenancy                     = "default"
   associate_public_ip_address = "false"
-  # depends_on = ["aws_ami_launch_permission.share_db1_ami"]
+  depends_on = ["aws_ami_launch_permission.share_db1_ami"]
 
   tags {
-    Name              = "DB1-${var.vpc_owner}"
+    Name              = "DB1-${var.user_env}"
     "bws:Application"   = "MasterData"
     "bws:Software"      = "SQLServer2012"
   }
@@ -70,13 +70,13 @@ resource "aws_instance" "db2" {
   subnet_id                   = "${module.vpc.subnets_isolated[0]}"
   vpc_security_group_ids      = ["${aws_security_group.db2.id}"]
   iam_instance_profile        = "${aws_iam_instance_profile.S3_profile.name}"
-  key_name                    = "${var.key_name}"
+  key_name                    = "${var.key_pair}"
   tenancy                     = "default"
   associate_public_ip_address = "false"
- #  depends_on = ["aws_ami_launch_permission.share_db2_ami"]
+ depends_on = ["aws_ami_launch_permission.share_db2_ami"]
 
   tags {
-    Name              = "DB2-${var.vpc_owner}"
+    Name              = "DB2-${var.user_env}"
     "bws:Application"   = "OrganizationServices"
     "bws:Application"   = "SingleSignOn"
     "bws:Application"   = "FindAnOffice"
@@ -94,14 +94,14 @@ resource "aws_instance" "dc1" {
   subnet_id                   = "${module.vpc.subnets_isolated[0]}"
   vpc_security_group_ids      = ["${aws_security_group.dc1.id}"]
   iam_instance_profile        = "${aws_iam_instance_profile.S3_profile.name}"
-  key_name                    = "${var.key_name}"
+  key_name                    = "${var.key_pair}"
   tenancy                     = "default"
   associate_public_ip_address = "false"
-  # depends_on = ["aws_ami_launch_permission.share_dc1_ami"]
+  depends_on = ["aws_ami_launch_permission.share_dc1_ami"]
 
 
   tags {
-    Name                = "DomainController-${var.vpc_owner}"
+    Name                = "DomainController-${var.user_env}"
     "bws:Application"   = "ActiveDirectory"
     "bws:Service"       = "Hosting"
     "bws:owner"         = "Hosting"
@@ -115,13 +115,12 @@ resource "aws_instance" "rdp1" {
   subnet_id                   = "${module.vpc.subnets_isolated[0]}"
   vpc_security_group_ids      = ["${aws_security_group.rdp1.id}"]
   iam_instance_profile        = "${aws_iam_instance_profile.S3_profile.name}"  
-  key_name                    = "${var.key_name}"
+  key_name                    = "${var.key_pair}"
   tenancy                     = "default"
   associate_public_ip_address = "false"
-  # depends_on = ["aws_ami_launch_permission.share_rdp1_ami"]
 
   tags {
-    Name            = "RDP1-${var.vpc_owner}"
+    Name            = "RDP1-${var.user_env}"
   }
 }
 

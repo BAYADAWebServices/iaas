@@ -1,20 +1,26 @@
-variable "customer_account_profile" {}
-
-variable "shared_services_profile" {
-  default = "BWS-OPSSharedServiceDev-FullAdmin"
-}
-
 variable "account_name" {}
 
-variable "account_id" {}
+variable "key_pair" {}
 
-variable "key_name" {
-  default = "sqatest"
+variable "vpc_subnet" {}
+
+variable "user_env" {}
+
+variable "access_key" {}
+
+variable "secret_key" {}
+
+variable "shared_role" {
+  default = "arn:aws:iam::538477515645:role/BWS-OPSSharedServiceDev-FullAdmin"
 }
 
-variable "vpcsubnet" {}
+variable "ses_shared_role" {
+  default = "arn:aws:iam::764320393679:role/BWS-SESSharedServiceNonProd-FullAdmin"
+}
 
-variable "vpc_owner" {}
+variable "customer_role" {}
+
+variable "account_id" {}
 
 variable "region" {
   default = "us-east-1"
@@ -44,7 +50,7 @@ variable "shared_tgw_rt_id" {
 }
 
 variable "shared_tgw_attach_id" {
-   default = "tgw-attach-0491837b2202e63bc"
+   default = "tgw-attach-0ea1331ea99d33ec7"
 }
 
 variable "ami_web1" {
@@ -64,7 +70,7 @@ variable "ami_db2" {
 }
 
 variable "ami_dc1" {
-  default = "ami-02e71d2b3a4a2a409"
+  default = "ami-004ecaf901a994f35"
 }
 
 variable "web1_instance_size" {

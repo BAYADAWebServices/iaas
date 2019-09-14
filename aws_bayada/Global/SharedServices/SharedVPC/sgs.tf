@@ -1,9 +1,11 @@
 resource "aws_security_group" "resolver" {
+    #provider    = "aws.shared_services"
   name        = "ResolverSG"
   vpc_id      = "${module.vpc.id}"
 }
 
 resource "aws_security_group_rule" "resolver-tcp53-in" {
+    #provider                 = "aws.shared_services"
   type                     = "ingress"
   from_port                = 53
   to_port                  = 53
@@ -13,6 +15,7 @@ resource "aws_security_group_rule" "resolver-tcp53-in" {
 }
 
 resource "aws_security_group_rule" "resolver-udp53-in" {
+    #provider                 = "aws.shared_services"
   type                     = "ingress"
   from_port                = 53
   to_port                  = 53
@@ -22,6 +25,7 @@ resource "aws_security_group_rule" "resolver-udp53-in" {
 }
 
 resource "aws_security_group_rule" "resolver-all-out" {
+    #provider                 = "aws.shared_services"
   type                     = "egress"
   from_port                = 0
   to_port                  = 0

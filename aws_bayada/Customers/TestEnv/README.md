@@ -6,9 +6,12 @@ Create test envionment in a customer account utilizing a workspace for each envi
 
 # Usage
 This is the template:
-./deploy.sh {terraform_function} {region} {vpcsubnet} {env} {accountrole} {accountname} {accountid} {vpcowner}
+./deploy.sh {terraform_function} {region} {keypair} {vpcsubnet} {userenv} {accesskey} {secretkey} {customerrole} {accountid} {accountname}
 
-Example: This assumes the environment will be for Jeff and the account/customer is starbucks.
+Example: 
+./deploy.sh plan us-east-1 testpair 10.20.12.0/24 Jeff accesskey secrectkey CustomerRole accoundIDnumber bws-sqa-org-test
 
-./deploy.sh plan us-east-1 10.20.12.0/24 starbucks-Jeff BWS-SQAOrgTest-FullAdmin bws-sqa-org-test 123403453763 Jeff
+
+
+
 
